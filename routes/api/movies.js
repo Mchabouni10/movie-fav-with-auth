@@ -8,6 +8,7 @@ const movieController = require('../../controllers/api/movies');
 
 // GET /api/favorites
 router.get('/', movieController.index);
+
 // GET /api/favorites/id
 router.get('/:id', movieController.show);
 

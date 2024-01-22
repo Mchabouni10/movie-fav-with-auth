@@ -6,7 +6,7 @@ const movieSchema = new mongoose.Schema({
   boxOffice: String,
   poster: String,
   imdbID: { type: String, unique: true }, 
-  user: {
+  userID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },

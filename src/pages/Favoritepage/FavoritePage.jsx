@@ -8,6 +8,7 @@ import {
   faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./FavoritePage.module.css";
+import * as usersService from "../../utilities/users-service"
 
 const FavoritePage = () => {
   const [favorites, setFavorites] = useState([]);
@@ -20,20 +21,37 @@ const FavoritePage = () => {
     fetchFavorites();
   }, []);
 
+
+  
   const fetchFavorites = async () => {
     try {
-      const response = await fetch("/api/favorites");
+      const user = usersService.getUser(); 
+      
+      if (!user) {
+        // Handle the case where the user is not authenticated
+        return;
+      }
+  
+      const userID = user._id; 
+      console.log("User ID:", userID);
+  
+      const response = await fetch(`/api/favorites?userID=${userID}`);
+      
       if (!response.ok) {
         throw new Error("Failed to fetch movies");
       }
-
+  
       const moviesData = await response.json();
+      console.log("Movies Data:", moviesData); 
       setFavorites(moviesData);
     } catch (error) {
       console.error("Error fetching movies:", error);
       setError("Failed to fetch movies. Please try again.");
     }
   };
+
+  console.log("Component rendered with favorites:", favorites);
+  
 
   const handleEdit = (movieId) => {
     navigate(`/favorites/${movieId}/edit`);
@@ -56,6 +74,8 @@ const FavoritePage = () => {
       console.error("Error deleting movie:", error);
     }
   };
+
+ 
 
   return (
     <div className={styles.container}>

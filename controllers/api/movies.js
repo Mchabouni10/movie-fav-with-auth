@@ -3,14 +3,16 @@ const Movie = require('../../models/MovieSchema');
 
 // Get all movies
 async function index(req, res) {
-    try {
-      const movies = await Movie.find();
-      res.status(200).json(movies);
-    } catch (error) {
-       console.error('Error fetching movies:', error);
+  try {
+    const userID = req.query.userID;
+    const movies = await Movie.find({ userID: userID });
+    res.status(200).json(movies);
+  } catch (error) {
+    console.log('Error fetching movies:', error);
     res.status(500).json({ error: 'Internal server error', message: error.message });
-    }
   }
+}
+
   
   async function show(req, res) {
     try {
@@ -20,7 +22,7 @@ async function index(req, res) {
       }
       res.status(200).json(movie);
     } catch (error) {
-      console.error('Error fetching movie by ID:', error);
+      console.log('Error fetching movie by ID:', error);
       res.status(500).json({ error: 'Internal server error' });
     }
   }
@@ -33,7 +35,7 @@ async function index(req, res) {
       console.log('Request Body:', req.body);
   
       // Extract relevant movie information from the request body
-      const { title, year, boxOffice, poster, imdbID, rated, released, runtime, genre } = req.body;
+      const { title, year, boxOffice, poster, imdbID, rated, released, runtime, genre, userID } = req.body;
       console.log('Movie Data:', { title, year, boxOffice, poster, imdbID, rated, released, runtime, genre });
   
       // Check if the movie already exists in the database based on IMDb ID
@@ -45,7 +47,7 @@ async function index(req, res) {
       }
   
       // Create a new Movie instance with the extracted information
-      const newMovie = new Movie({ title, year, boxOffice, poster, imdbID, rated, released, runtime, genre });
+      const newMovie = new Movie({ title, year, boxOffice, poster, imdbID, rated, released, runtime, genre, userID });
   
       // Save the new movie to the database
       const savedMovie = await newMovie.save();

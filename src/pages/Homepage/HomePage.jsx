@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MovieDisplay from "../../components/MovieDisplay/MovieDisplay";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import styles from "./HomePage.module.css";
+import * as usersService from "../../utilities/users-service"
 
 function HomePage() {
   const apiKey = "666b0795";
@@ -35,6 +36,8 @@ function HomePage() {
     getMovie("Avatar");
   }, []);
 
+
+
   const addToFavorites = async (movie) => {
     try {
       // Make a POST request to add the movie to MongoDB without authentication
@@ -53,6 +56,7 @@ function HomePage() {
           released: movie?.Released,
           runtime: movie?.Runtime,
           genre: movie?.Genre,
+          userID: usersService.getUser()._id
         }),
       });
 
@@ -73,6 +77,9 @@ function HomePage() {
       alert("Error adding movie. Please try again.");
     }
   };
+
+
+  console.log(usersService.getUser()._id)
 
   return (
     <div>
