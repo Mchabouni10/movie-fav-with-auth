@@ -23,6 +23,8 @@
   border-radius: 8px;
   display: flex;
   flex-direction: column;
+  position: relative;
+  margin-bottom: 20px;
 }
 
 .poster {
@@ -39,8 +41,16 @@
 }
 
 .buttons {
+  margin: 0px;
   display: flex;
   justify-content: space-between;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.editButton {
+  margin-right: 5px;
 }
 
 .link {

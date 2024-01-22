@@ -1,7 +1,9 @@
 // FavoritePage.js
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import styles from './FavoritePage.module.css'; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import styles from './FavoritePage.module.css';
 
 const FavoritePage = () => {
   const [favorites, setFavorites] = useState([]);
@@ -18,7 +20,7 @@ const FavoritePage = () => {
       if (!response.ok) {
         throw new Error('Failed to fetch movies');
       }
-  
+
       const moviesData = await response.json();
       setFavorites(moviesData);
     } catch (error) {
@@ -37,11 +39,11 @@ const FavoritePage = () => {
       const response = await fetch(`/api/movies/${movieId}`, {
         method: 'DELETE',
       });
-  
+
       if (!response.ok) {
         throw new Error(`Failed to delete movie. HTTP error ${response.status}`);
       }
-  
+
       // Fetch the updated list of favorites after deletion
       fetchFavorites();
     } catch (error) {
@@ -59,7 +61,26 @@ const FavoritePage = () => {
         {favorites && favorites.length > 0 ? (
           favorites.map((fav) => (
             <li key={fav._id} className={styles.listItem}>
-              {fav.poster && <img src={fav.poster} alt={`${fav.title} Poster`} className={styles.poster} />}
+
+
+
+              <div className={styles.buttons}>
+              <FontAwesomeIcon
+                  icon={faPenToSquare}
+                  onClick={() => handleEdit(fav._id)}
+                  className={styles.editButton}
+                />
+                <FontAwesomeIcon
+                  icon={faTimes}
+                  onClick={() => handleRemove(fav._id)}
+                  className={styles.deleteButton}
+                />
+              </div>
+
+              
+              {fav.poster && (
+                <img src={fav.poster} alt={`${fav.title} Poster`} className={styles.poster} />
+              )}
               <div className={styles.info}>
                 <strong>Title:</strong> {fav.title} <br />
                 <strong>Year:</strong> {fav.year} <br />
@@ -68,10 +89,6 @@ const FavoritePage = () => {
                 <strong>Released:</strong> {fav.released} <br />
                 <strong>Runtime:</strong> {fav.runtime} <br />
                 <strong>Genre:</strong> {fav.genre}
-              </div>
-              <div className={styles.buttons}>
-                <button onClick={() => handleEdit(fav._id)}>Edit</button>
-                <button onClick={() => handleRemove(fav._id)}>Remove</button>
               </div>
             </li>
           ))
@@ -84,6 +101,8 @@ const FavoritePage = () => {
 };
 
 export default FavoritePage;
+
+
 
 
 
