@@ -9,6 +9,20 @@
   font-size: 24px;
 }
 
+.sortOptions {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.sortOptions label {
+  margin-right: 2vmin;
+}
+
+.sortOptions select {
+  margin-right: 2vmin;
+}
+
 .list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -16,6 +30,10 @@
   list-style: none;
   padding: 0;
   margin-top: 15px;
+}
+
+.iconBackWay {
+  margin-right: 1vmin;
 }
 
 .listItem {
@@ -40,23 +58,34 @@
   margin: 2vmin;
 }
 
-.buttons {
-  margin: 0px;
+.FontAwesomeIcons2 {
+  margin: 3px;
   display: flex;
   justify-content: space-between;
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 5;
+
 }
 
-.editButton {
-  margin-right: 5px;
+.editFontAwesome2 {
+  font-size: 4vmin;
+  margin-right: 2vmin;
+  color: #4caf50;
+  cursor: pointer;
+}
+
+.deleteFontAwesome2 {
+  font-size: 4vmin;
+  color: red;
+  cursor: pointer;
 }
 
 .link {
-  color: white;
+  color: #4caf50;
   text-decoration: none;
   display: inline-block;
-  margin-top: 20px;
   font-weight: bold;
+  margin: 2vmin;
 }
