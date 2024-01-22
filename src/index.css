@@ -15,10 +15,6 @@ code {
 
 /* CSS Custom Properties */
 :root {
-  --primary: #1845ad;
-  --secondary: #23a2f6;
-  --tertiary: #ff512f;
-  --quaternary: #f09819;
   --background-dark: #080710;
   --background-light: rgba(255, 255, 255, 0.13);
   --border-color: rgba(255, 255, 255, 0.1);
@@ -40,6 +36,11 @@ body {
   background-color: var(--background-dark);
 }
 
+body.light-mode {
+  background-color: white;
+  color: black;
+}
+
 .background {
   width: 430px;
   height: 520px;
@@ -48,6 +49,8 @@ body {
   left: 50%;
   top: 50%;
 }
+
+
 
 
 .section-heading {

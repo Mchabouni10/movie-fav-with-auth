@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faTimes,
+  faTrash,
   faPenToSquare,
   faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
@@ -145,7 +145,7 @@ const FavoritePage = () => {
                     className={styles.editFontAwesome2}
                   />
                   <FontAwesomeIcon
-                    icon={faTimes}
+                    icon={faTrash}
                     onClick={() => handleRemove(fav._id)}
                     className={styles.deleteFontAwesome2}
                   />
