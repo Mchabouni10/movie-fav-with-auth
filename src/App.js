@@ -3,10 +3,12 @@ import "./App.css";
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { getUser } from "./utilities/users-service";
-import NewOrderPage from "./components/NewOrderPage";
 import AuthPage from "./components/AuthPage/AuthPage";
-import OrderHistoryPage from "./components/OrderHistoryPage";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
+import HomePage from "./pages/Homepage/HomePage";
+import FavoritePage from "./pages/Favoritepage/FavoritePage";
+import DeleteMovie from "./components/DeleteMovie/DeleteMovie";
+import EditMovie from "./components/EditMovie/EditMovie";
 
 
 function App() {
@@ -18,8 +20,11 @@ function App() {
         <>
           <Navbar user={user} setUser={setUser} />
           <Routes>
-            <Route path="/orders/new" element={<NewOrderPage />} />
-            <Route path="/orders" element={<OrderHistoryPage/>} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/favorites" element={<FavoritePage />} />
+
+          <Route path="/favorites/:id/delete" element={<DeleteMovie />} />
+          <Route path="/favorites/:id/edit" element={<EditMovie />} />
           </Routes>
         </>
       ) : (

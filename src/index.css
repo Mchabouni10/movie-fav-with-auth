@@ -64,8 +64,8 @@ body {
 }
 
 .form-container  {
-  position: relative; /* Set position to relative */
-  z-index: 1; /* Set a higher z-index to bring it in front of other elements */
+  position: relative;
+  z-index: 1; 
   height: 520px;
   width: 400px;
   background-color: var(--background-light);
@@ -152,8 +152,9 @@ button, a.button {
   cursor: pointer;
 }
 
+
 button.btn-sm {
-  margin-top: 30px;
+  margin-top: 5px;
   font-size: 1.5vmin;
   padding: .6vmin .8vmin;
 }
@@ -171,7 +172,11 @@ button:disabled, form:invalid button[type="submit"] {
 }
 
 button[type="submit"] {
-  /* margin-top: 100px; */
   grid-column: span 2;
   margin: 1vmin 0 0;
+}
+
+button:hover {
+  background-color: white;
+  color: #080710;
 }

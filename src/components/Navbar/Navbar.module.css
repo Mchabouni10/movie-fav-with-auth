@@ -1,0 +1,27 @@
+/* Navbar.module.css */
+.NavbarContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2vmin 4vmin;
+}
+
+.favoritePageLink {
+text-decoration: none;
+color: white;
+font-size: 3vmin;
+
+
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+}
+
+  

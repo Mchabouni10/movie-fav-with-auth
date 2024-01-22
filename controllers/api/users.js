@@ -44,6 +44,7 @@ async function login(req, res) {
 function createJWT(user) {
   return jwt.sign(
     // data payload
+   
     { user },
     process.env.SECRET,
     { expiresIn: '24h' }

@@ -1,0 +1,36 @@
+.SearchFormPage {
+  text-align: center;
+}
+
+.SearchForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row; 
+}
+
+.searchIcon {
+  color: white;
+  margin-right: 10px;
+  font-size: 24px;
+}
+
+.SearchInput {
+  color: black;
+  padding: 7px;
+  font-size: 16px;
+  border: 1px solid black;
+  border-radius: 4px;
+  width: 600px;
+  margin-top: 5px;
+}
+
+.seachButton {
+  padding: 5px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+  width: 150px;
+}

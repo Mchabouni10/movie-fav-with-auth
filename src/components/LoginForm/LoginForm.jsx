@@ -1,7 +1,10 @@
 // LoginForm.jsx
 
 import React, { useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope, faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 import { login } from '../../utilities/users-service';
+
 
 const LoginForm = ({ setUser }) => {
   const [credentials, setCredentials] = useState({
@@ -33,31 +36,30 @@ const LoginForm = ({ setUser }) => {
     <div>
       <div className="form-container">
         <form autoComplete="off" onSubmit={handleSubmit}>
-          <label>Email</label>
+          <div style={{ textAlign: 'center' }}>
+            <FontAwesomeIcon icon={faUser} size="4x" style={{ marginBottom: '10px', color: 'var(--text-dark)' }} />
+          </div>
+          <label>Email<FontAwesomeIcon icon={faEnvelope} size="1x" style={{marginLeft:'6px', color: 'var(--text-dark)' }} /></label>
           <input
             type="text"
             name="email"
             value={credentials.email}
             onChange={handleChange}
-            placeholder="example@mail.com" // Placeholder text
+            placeholder="" 
             required
           />
-          <label>Password</label>
+          <label>Password<FontAwesomeIcon icon={faLock} size="1x" style={{marginLeft:'6px', color: 'var(--text-dark)' }} /></label>
           <div style={{ position: 'relative' }}>
             <input
               type="password"
               name="password"
               value={credentials.password}
               onChange={handleChange}
-              placeholder="********" // Placeholder text with stars
+              placeholder="" 
               required
             />
-            <div style={{ position: 'absolute', top: '50%', right: '10px', transform: 'translateY(-50%)', color: 'gray' }}>
-              {/* Add any icon or text you want to use for password visibility */}
-              &#9679;&#9679;&#9679;&#9679;
-            </div>
           </div>
-          <button type="submit">LOG IN</button>
+          <button className="Login-Out-Button" type="submit">LOG IN</button>
         </form>
       </div>
       <p className="error-message">&nbsp;{error}</p>
@@ -66,5 +68,3 @@ const LoginForm = ({ setUser }) => {
 };
 
 export default LoginForm;
-
-
