@@ -2,6 +2,7 @@
 
 .container {
   padding: 20px;
+  color: white;
 }
 
 .title {
@@ -17,6 +18,7 @@
 
 .sortOptions label {
   margin-right: 2vmin;
+  margin-left: 5vmin;
 }
 
 .sortOptions select {
@@ -34,6 +36,9 @@
 
 .iconBackWay {
   margin-right: 1vmin;
+  color: #4caf50;
+  font-size: 3vmin;
+  font-weight: bold;
 }
 
 .listItem {
@@ -83,7 +88,7 @@
 }
 
 .link {
-  color: #4caf50;
+  color: white;
   text-decoration: none;
   display: inline-block;
   font-weight: bold;
