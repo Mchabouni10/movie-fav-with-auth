@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useContext  } from "react";
 import { Routes, Route } from "react-router-dom";
 import { getUser } from "./utilities/users-service";
 import AuthPage from "./components/AuthPage/AuthPage";
@@ -8,10 +8,12 @@ import HomePage from "./pages/Homepage/HomePage";
 import FavoritePage from "./pages/Favoritepage/FavoritePage";
 import DeleteMovie from "./components/DeleteMovie/DeleteMovie";
 import EditMovie from "./components/EditMovie/EditMovie";
+import UserProfile from "./components/UserProfile/UserProfile";
 
 
 function App() {
   const [user, setUser] = useState(getUser());
+  
   return (
     <div className="App">
 
@@ -24,6 +26,7 @@ function App() {
 
           <Route path="/favorites/:id/delete" element={<DeleteMovie />} />
           <Route path="/favorites/:id/edit" element={<EditMovie />} />
+          <Route path="/profile" element={<UserProfile />} />
           </Routes>
         </>
       ) : (

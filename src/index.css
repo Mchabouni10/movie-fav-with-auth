@@ -15,12 +15,13 @@ code {
 
 /* CSS Custom Properties */
 :root {
-  --background-dark: #080710;
+  --background-color: #080710;
   --background-light: rgba(255, 255, 255, 0.13);
   --border-color: rgba(255, 255, 255, 0.1);
   --shadow-color: rgba(8, 7, 16, 0.6);
   --text-light: #ffffff;
   --text-dark: #e5e5e5;
+  --button-color: #4caf50;
   --placeholder-color: #e5e5e5;
 }
 
@@ -32,14 +33,26 @@ code {
   box-sizing: border-box;
 }
 
-body {
-  background-color: var(--background-dark);
+.dark-mode {
+  --background-color: #080710;
+  --text-color: #ffffff;
 }
 
-body.light-mode {
-  background-color: white;
-  color: black;
+.light-mode {
+  --background-color: #ffffff;
+  --text-color: #000000;
 }
+
+
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+
+
+
 
 .background {
   width: 430px;

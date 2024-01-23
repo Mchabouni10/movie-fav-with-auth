@@ -45,3 +45,34 @@ export async function checkToken() {
 
   return expiration > Date.now();
 }
+
+
+
+export async function getCurrentUser() {
+  const token = getToken();
+
+  if (!token) {
+    // User is not authenticated
+    return null;
+  }
+
+  try {
+    // Replace the following endpoint with your actual backend API endpoint to get the current user
+    const response = await fetch('/api/users/current', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch current user');
+    }
+
+    const user = await response.json();
+    return user;
+  } catch (error) {
+    console.error('Error in getCurrentUser:', error);
+    throw error;
+  }
+}

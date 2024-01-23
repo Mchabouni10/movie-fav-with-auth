@@ -7,7 +7,8 @@ const User = require('../../models/user');
 
 module.exports = {
   create,
-  login
+  login,
+  getUserProfile,
 };
 
 async function create(req, res) {
@@ -35,6 +36,17 @@ async function login(req, res) {
     res.status(200).json( createJWT(user) );
   } catch(e) {
     res.status(400).json({ msg: e.message, reason: 'Bad Credentials' });
+  }
+}
+
+
+async function getUserProfile(req, res) {
+  try {
+    // Fetch the user by ID from the request object
+    const user = req.user;
+    res.status(200).json(user);
+  } catch (e) {
+    res.status(500).json({ msg: e.message, reason: 'Internal Server Error' });
   }
 }
 

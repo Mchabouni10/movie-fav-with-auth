@@ -11,6 +11,7 @@ export const ThemeProvider = ({ children }) => {
 
   const toggleTheme = () => {
     setIsDarkMode((prevMode) => !prevMode);
+    console.log('Current theme:', isDarkMode ? 'Dark Mode' : 'Light Mode');
   };
 
   return (

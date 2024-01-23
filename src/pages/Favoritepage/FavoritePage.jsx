@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,53 +7,48 @@ import {
   faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./FavoritePage.module.css";
-import * as usersService from "../../utilities/users-service"
+import * as usersService from "../../utilities/users-service";
 
 const FavoritePage = () => {
   const [favorites, setFavorites] = useState([]);
   const [error, setError] = useState(null);
   const [sortBy, setSortBy] = useState(null);
-  const [sortOrder, setSortOrder] = useState("asc"); 
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [numberOfMovies, setNumberOfMovies] = useState(0); 
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchFavorites();
   }, []);
 
-
-  
   const fetchFavorites = async () => {
     try {
-      const user = usersService.getUser(); 
-      
+      const user = usersService.getUser();
+
       if (!user) {
         // Handle the case where the user is not authenticated
         return;
       }
-  
-      const userID = user._id; 
+
+      const userID = user._id;
       console.log("User ID:", userID);
-  
+
       const response = await fetch(`/api/favorites?userID=${userID}`);
-      
+
       if (!response.ok) {
         throw new Error("Failed to fetch movies");
       }
-  
+
       const moviesData = await response.json();
-      console.log("Movies Data:", moviesData); 
+      console.log("Movies Data:", moviesData);
       setFavorites(moviesData);
+
+      // Update the number of movies
+      setNumberOfMovies(moviesData.length);
     } catch (error) {
       console.error("Error fetching movies:", error);
       setError("Failed to fetch movies. Please try again.");
     }
-  };
-
-  console.log("Component rendered with favorites:", favorites);
-  
-
-  const handleEdit = (movieId) => {
-    navigate(`/favorites/${movieId}/edit`);
   };
 
   const handleRemove = async (movieId) => {
@@ -69,21 +63,30 @@ const FavoritePage = () => {
         );
       }
 
+      // Fetch favorites again to update the list and the number of movies
       fetchFavorites();
     } catch (error) {
       console.error("Error deleting movie:", error);
     }
   };
 
- 
+  const handleEdit = (movieId) => {
+    navigate(`/favorites/${movieId}/edit`);
+  
+  };
+
+  const removeNonNumericCharacters = (value) => {
+    return parseFloat(value.replace(/[^0-9.]/g, ""));
+  };
 
   return (
     <div className={styles.container}>
       <div className={styles.sortOptions}>
-      <h2 className={styles.title}>Favorites Movies</h2>
+        <h2 className={styles.title}>
+          Favorites Movies ({numberOfMovies} movies)
+        </h2>
 
-      {/* Sorting options */}
-      
+        {/* Sorting options */}
         <label htmlFor="sortBy">Sort By:</label>
         <select
           id="sortBy"
@@ -122,8 +125,6 @@ const FavoritePage = () => {
       {/* Movie list */}
       <ul className={styles.list}>
         {favorites && favorites.length > 0 ? (
-
-
           favorites
             .sort((a, b) => {
               // Sort logic based on the selected criteria and order
@@ -137,8 +138,8 @@ const FavoritePage = () => {
                   : b.genre.localeCompare(a.genre);
               } else if (sortBy === "boxOffice") {
                 return sortOrder === "asc"
-                  ? parseInt(a.boxOffice) - parseInt(b.boxOffice)
-                  : parseInt(b.boxOffice) - parseInt(a.boxOffice);
+                  ? removeNonNumericCharacters(a.boxOffice) - removeNonNumericCharacters(b.boxOffice)
+                  : removeNonNumericCharacters(b.boxOffice) - removeNonNumericCharacters(a.boxOffice);
               } else if (sortBy === "rated") {
                 return sortOrder === "asc"
                   ? a.rated.localeCompare(b.rated)
@@ -198,5 +199,6 @@ const FavoritePage = () => {
 };
 
 export default FavoritePage;
+
 
 
