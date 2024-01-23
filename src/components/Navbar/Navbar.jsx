@@ -28,7 +28,7 @@ function Navbar({ user, setUser }) {
           >
             {location.pathname === "/favorites"
               ? "You are in Favorites"
-              : "Go to Favorites"}
+              : "Favorites"}
           </Link>
         </div>
 

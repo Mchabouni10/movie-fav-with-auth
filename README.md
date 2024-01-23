@@ -1,70 +1,60 @@
-# Getting Started with Create React App
+# Movie API and Favorites
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the Movie API and Favorites project. This project provides a platform for interacting with a movie API, allowing users to explore a variety of movies and create a personalized list of favorite movies.
 
-## Available Scripts
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Features](#features)
+3. [Project Structure](#project-structure)
+4. [Installation](#installation)
+5. [Technologies Used](#technologies-used)
+6. [API Endpoints](#api-endpoints)
+7. [Usage](#usage)
+8. [Documentation](#documentation)
+9. [Screenshots](#screenshots)
 
-In the project directory, you can run:
+## Introduction
 
-### `npm start`
+The Movie API and Favorites project is designed to provide a movie browsing experience and enable users to maintain a list of their favorite movies. It utilizes a movie API to fetch movie details and allows users to manage their favorite movies.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Note
+This project is part of a comprehensive training cohort website. All images and concepts utilized are unrelated to any specific organization or advertising service.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+- **Movie API Integration**: Explore a diverse range of movies through an external movie API.
+- **Favorites Management**: Create and manage a list of favorite movies.
+- **User Authentication**: Ensure a personalized experience with secure user authentication.
+- **CRUD Functionality**: Utilize functionality for CRUD operations through API routes.
+- **Backend Structure**: Understand the project's backend structure, including routes and models.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Project Structure
 
-### `npm run build`
+The application is organized into distinct sections to enhance navigation and contribution:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- `src/routes/api`: Routes from the backend to frontend for different elements in the app.
+- `src/models/api`: Functionality for CRUD operations.
+- `src/config`: Connection to the database and different schema.
+- `src/utilities`: Utilities aiding in authentication and routing between the server and the frontend.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Layout
+### Screenshots
+Include screenshots of different sections or pages of your project.
+![HomePage top](./Images/home-pagetop.png)
+![HomePage middle 1](./Images/home-pagemiddle1.png)
+![HomePage middle 2](./Images/home-pagemiddle2.png)
+![HomePage middle 3](./Images/home-pagemiddle3.png)
+![HomePage footer](./Images/footerScreenShot.png)
+![Login Page](./Images/LoginScreen.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Installation
 
-### `npm run eject`
+To set up the project, follow these steps:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+# Install Nodemon for server
+npx nodemon server
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Start the development server
+npm start
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
