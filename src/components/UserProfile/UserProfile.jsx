@@ -51,7 +51,6 @@ const UserProfile = () => {
       <p className={styles.profileInfo}>
         <strong>Location:</strong> {user.location || "N/A"}
       </p>
-      {/* Add more user information fields as needed */}
     </div>
   );
 };
