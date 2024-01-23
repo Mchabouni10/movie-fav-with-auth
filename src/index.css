@@ -97,13 +97,12 @@ body {
 }
 
 p.error-message {
-  position: absolute; /* Set position to absolute */
-  top: 70%; /* Adjust the top position as needed */
-  left: 50%; /* Adjust the left position as needed */
+  position: absolute; 
+  left: 50%; 
   transform: translate(-50%, -50%);
   color: white;
   text-align: center;
-  z-index: 2; /* Set a higher z-index to bring it in front of the form */
+  z-index: 2;
 }
 
 

@@ -40,12 +40,11 @@ The application is organized into distinct sections to enhance navigation and co
 ## Layout
 ### Screenshots
 Include screenshots of different sections or pages of your project.
-![HomePage top](./Images/home-pagetop.png)
-![HomePage middle 1](./Images/home-pagemiddle1.png)
-![HomePage middle 2](./Images/home-pagemiddle2.png)
-![HomePage middle 3](./Images/home-pagemiddle3.png)
-![HomePage footer](./Images/footerScreenShot.png)
-![Login Page](./Images/LoginScreen.png)
+
+![HomePage 1](./public/images/image3.png)
+![HomePage 2](./public/images/image2.png)
+![HomePage 3](./public/images/image1.png)
+![Login Page](./public/images/image1.png)
 
 ## Installation
 
