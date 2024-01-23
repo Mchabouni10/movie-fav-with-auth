@@ -42,8 +42,8 @@ The application is organized into distinct sections to enhance navigation and co
 Include screenshots of different sections or pages of your project.
 
 ![HomePage 1](./public/images/image3.png)
-![HomePage 2](./public/images/image2.png)
-![HomePage 3](./public/images/image1.png)
+![HomePage 2](./public/images/image4.png)
+![HomePage 3](./public/images/image5.png)
 ![Login Page](./public/images/image1.png)
 
 ## Installation
