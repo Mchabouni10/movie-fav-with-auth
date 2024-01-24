@@ -76,3 +76,34 @@ export async function getCurrentUser() {
     throw error;
   }
 }
+
+
+export async function updateUserProfile(formData) {
+  const token = getToken();
+
+  if (!token) {
+    // User is not authenticated
+    throw new Error('User is not authenticated');
+  }
+
+  try {
+    // Replace the following endpoint with your actual backend API endpoint to update the user profile
+    const response = await fetch('/api/users/update-profile', {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to update user profile');
+    }
+
+    const updatedUser = await response.json();
+    return updatedUser;
+  } catch (error) {
+    console.error('Error in updateUserProfile:', error);
+    throw error;
+  }
+}

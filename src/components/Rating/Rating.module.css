@@ -1,0 +1,12 @@
+.ratingContainer {
+    display: inline-block;
+    text-align: center;
+    width: 100%; 
+    margin: 0 auto; 
+  }
+  
+  .star {
+    cursor: pointer;
+    color: #fdd835;
+    font-size: 3vmin;
+  }

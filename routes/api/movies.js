@@ -19,6 +19,10 @@ router.post('/', movieController.addMovie);
 router.put('/:id', movieController.updateMovieById);
 
 
+//POST /api/movies/rating
+router.post('/:id/rating', movieController.updateMovieRating);
+
+
 //DELETE /api/movie
 router.delete('/:id', movieController.deleteMovieById);
 

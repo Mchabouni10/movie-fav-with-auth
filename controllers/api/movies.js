@@ -38,12 +38,12 @@ async function index(req, res) {
       const { title, year, boxOffice, poster, imdbID, rated, released, runtime, genre, userID } = req.body;
       console.log('Movie Data:', { title, year, boxOffice, poster, imdbID, rated, released, runtime, genre });
   
-      // Check if the movie already exists in the database based on IMDb ID
-      const existingMovie = await Movie.findOne({ imdbID });
+      // Check if the movie already exists in the database for the current user
+      const existingMovie = await Movie.findOne({ imdbID, userID });
   
       if (existingMovie) {
-        console.log('Movie already exists in the database');
-        return res.status(400).json({ error: 'Movie already exists in the database' });
+        console.log('Movie already exists for the current user');
+        return res.status(400).json({ error: 'Movie already exists for the current user' });
       }
   
       // Create a new Movie instance with the extracted information
@@ -93,6 +93,39 @@ const deleteMovieById = async (req, res) => {
 
 
 
+const updateMovieRating = async (req, res) => {
+  try {
+    const { rating } = req.body;
+    const movieId = req.params.id;
+
+    // Validate rating (example: between 1 and 5)
+    if (rating < 1 || rating > 5) {
+      return res.status(400).json({ error: 'Invalid rating value' });
+    }
+
+    // Find the movie by ID
+    const movie = await Movie.findById(movieId);
+
+    if (!movie) {
+      return res.status(404).json({ error: 'Movie not found' });
+    }
+
+    // Update the rating field
+    movie.rating = rating;
+
+    // Save the updated movie
+    const updatedMovie = await movie.save();
+
+    res.json(updatedMovie);
+  } catch (error) {
+    console.error('Error updating movie rating:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+
+
 
 module.exports = {
   index,
@@ -100,4 +133,5 @@ module.exports = {
   addMovie,
   updateMovieById,
   deleteMovieById,
+  updateMovieRating,
 };

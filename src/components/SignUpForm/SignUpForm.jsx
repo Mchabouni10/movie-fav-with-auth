@@ -66,13 +66,14 @@ const SignUpForm = ({ setUser }) => {
             value={formData.confirm}
             onChange={handleChange}
             required
+            
           />
-          <button type="submit" disabled={disable}>
+           <button className='Login-Out-Button' type="submit" disabled={disable}>
             SIGN UP
           </button>
         </form>
       </div>
-      <p className="error-message">&nbsp;{error}</p>
+      <p className="error-message2">&nbsp;{error}</p>
     </div>
   );
 };

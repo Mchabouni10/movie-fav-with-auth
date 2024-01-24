@@ -19,6 +19,7 @@ code {
   --background-light: rgba(255, 255, 255, 0.13);
   --border-color: rgba(255, 255, 255, 0.1);
   --shadow-color: rgba(8, 7, 16, 0.6);
+  --text1-color: rgb(252, 27, 27) ;
   --text-light: #ffffff;
   --text-dark: #e5e5e5;
   --button-color: #4caf50;
@@ -63,6 +64,43 @@ body {
   top: 50%;
 }
 
+#root {
+  height: 100%;
+}
+
+
+.align-ctr {
+  text-align: center;
+  font-weight: bold;
+  font-size: 2vmin;
+}
+
+.align-rt {
+  text-align: right;
+}
+
+.smaller {
+  font-size: smaller;
+}
+
+.flex-ctr-ctr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-j-end {
+  justify-content: flex-end;
+}
+
+.scroll-y {
+  overflow-y: scroll;
+}
+
 
 
 
@@ -80,9 +118,9 @@ body {
 }
 
 .form-container  {
-  position: relative;
+  position: relative; 
   z-index: 1; 
-  height: 520px;
+  height: auto;
   width: 400px;
   background-color: var(--background-light);
   transform: translate(-50%, -50%);
@@ -103,6 +141,17 @@ p.error-message {
   color: white;
   text-align: center;
   z-index: 2;
+  margin-top: 30em;
+}
+
+p.error-message2{
+  position: absolute; 
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  z-index: 2;
+  margin-top: 2em;
 }
 
 
@@ -120,6 +169,22 @@ form * {
   line-height: 42px;
   text-align: center;
 }
+
+.form2-container {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 42px;
+  text-align: center;
+}
+
+.form2-container label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
 
 .form-container label {
   display: block;
@@ -165,6 +230,11 @@ button, a.button {
   font-weight: 600;
   border-radius: 5px;
   cursor: pointer;
+}
+
+button.btn-md{
+max-width: 200px;
+padding: .6vmin .8vmin;
 }
 
 

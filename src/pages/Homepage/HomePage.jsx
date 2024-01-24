@@ -79,7 +79,7 @@ function HomePage() {
   };
 
 
-  console.log(usersService.getUser()._id)
+  
 
   return (
     <div>

@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./FavoritePage.module.css";
 import * as usersService from "../../utilities/users-service";
+import Rating from "./../../components/Rating/Rating";
 
 const FavoritePage = () => {
   const [favorites, setFavorites] = useState([]);
@@ -16,6 +17,10 @@ const FavoritePage = () => {
   const [sortOrder, setSortOrder] = useState("asc");
   const [numberOfMovies, setNumberOfMovies] = useState(0); 
   const navigate = useNavigate();
+
+
+ 
+
 
   useEffect(() => {
     fetchFavorites();
@@ -79,12 +84,47 @@ const FavoritePage = () => {
     return parseFloat(value.replace(/[^0-9.]/g, ""));
   };
 
+
+
+
+  const [loading, setLoading] = useState(false);
+  const handleRatingChange = async (movieId, newRating) => {
+    try {
+      const response = await fetch(`/api/movies/${movieId}/rating`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ rating: newRating }),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
+      }
+  
+      // Handle success, update UI or state as needed
+      console.log("Rating updated successfully");
+      // You can update the state or provide UI feedback here
+    } catch (error) {
+      console.error("Error updating movie rating:", error);
+      // Handle error and provide feedback if needed
+    }
+  };
+
+
+
+
+  
+
   return (
     <div className={styles.container}>
       <div className={styles.sortOptions}>
-        <h2 className={styles.title}>
-          Favorites Movies ({numberOfMovies} movies)
-        </h2>
+      <h2 className={styles.title}>
+      Favorites Movies (
+      <span style={{ color: '#4caf50', fontSize: '22px' }}>
+        {numberOfMovies}
+      </span>)
+    </h2>
 
         {/* Sorting options */}
         <label htmlFor="sortBy">Sort By:</label>
@@ -187,6 +227,13 @@ const FavoritePage = () => {
                   <strong>Released:</strong> {fav.released} <br />
                   <strong>Runtime:</strong> {fav.runtime} <br />
                   <strong>Genre:</strong> {fav.genre}
+                </div>
+                <div className={styles.ratingContainer}>
+                  <Rating
+                    initialRating={fav.rating || 0} // Use the movie's existing rating, default to 0
+                    onChange={(newRating) => handleRatingChange(fav._id, newRating)}
+                  />
+                  {loading && <div>Loading...</div>}
                 </div>
               </li>
             ))

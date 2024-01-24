@@ -8,11 +8,9 @@
 
 .favoritePageLink {
   color: var(--button-color);
-  margin-right: 20px; 
+  margin-right: 3vmin; 
   text-decoration: none;
   font-weight: bold;
-
-
 }
 
 .leftSection {
@@ -28,7 +26,14 @@
 
 .profileLink {
   color: var(--button-color);
-  margin-right: 20px; 
+  margin-right: 3vmin; 
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.HomeLinkPage {
+  color: var(--button-color);
+  margin-right: 3vmin; 
   text-decoration: none;
   font-weight: bold;
 }

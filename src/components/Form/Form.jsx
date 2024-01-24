@@ -18,7 +18,6 @@ function Form(props) {
   return (
     <div className={styles.SearchFormPage}>
       <form className={styles.SearchForm} onSubmit={handleSubmit}>
-        <FontAwesomeIcon icon={faSearch} className={styles.searchIcon} />
         <input
           className={styles.SearchInput}
           type="text"
@@ -27,8 +26,8 @@ function Form(props) {
           value={formData.searchterm}
           placeholder="Search for a movie..."
         />
-        <button className={styles.seachButton} type="submit">Submit</button>
       </form>
+      <FontAwesomeIcon icon={faSearch} className={styles.searchIcon} onClick={handleSubmit} />
     </div>
   );
 }

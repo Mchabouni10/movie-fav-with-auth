@@ -12,15 +12,30 @@ function Navbar({ user, setUser }) {
     <nav className={styles.navbar}>
       <div className={styles.NavbarContainer}>
         <div className={styles.leftSection}>
-          <Link 
+          {/* Home Link */}
+          <Link
+            to="/"
+            className={`${styles.HomeLinkPage} ${
+              location.pathname === "/" ? styles.active : ""
+            }`}
+          >
+            {location.pathname === "/" ? "Home" : "Home"}
+          </Link>
+
+          {/* Profile Link */}
+          <Link
             to="/profile"
             className={`${styles.profileLink} ${
               location.pathname === "/profile" ? styles.active : ""
             }`}
           >
-            {location.pathname === "/profile" ? `You are in ${user.name}'s Profile` : 'Profile'}
+            {location.pathname === "/profile"
+              ? `You are in ${user.name}'s Profile`
+              : "Profile"}
           </Link>
-          <Link 
+
+          {/* Favorites Link */}
+          <Link
             to="/favorites"
             className={`${styles.favoritePageLink} ${
               location.pathname === "/favorites" ? styles.active : ""
@@ -41,4 +56,3 @@ function Navbar({ user, setUser }) {
 }
 
 export default Navbar;
-

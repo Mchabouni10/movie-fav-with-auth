@@ -53,7 +53,7 @@ const EditMovie = () => {
         throw new Error(`Failed to update movie. HTTP error ${response.status}`);
       }
 
-      navigate('/favorites'); // Redirect to favorites page after successful update
+      navigate('/favorites'); 
     } catch (error) {
       console.error('Error updating movie:', error);
     }
@@ -75,7 +75,7 @@ const EditMovie = () => {
         <label className={styles.label}>Poster URL:</label>
         <input type="text" name="poster" value={movie.poster} onChange={handleInputChange} />
 
-        {/* Add missing keys to the form */}
+       
         <label className={styles.label}>Rated:</label>
         <input type="text" name="rated" value={movie.rated} onChange={handleInputChange} />
 
@@ -87,7 +87,7 @@ const EditMovie = () => {
 
         <label className={styles.label}>Genre:</label>
         <input type="text" name="genre" value={movie.genre} onChange={handleInputChange} />
-        {/* End of missing keys */}
+    
 
         <button type="button" className={styles.button} onClick={handleUpdateMovie}>
           Update Movie
