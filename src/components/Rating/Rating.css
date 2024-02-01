@@ -1,12 +1,14 @@
-.ratingContainer {
+.rating-container {
     display: inline-block;
     text-align: center;
     width: 100%; 
-    margin: 0 auto; 
+    margin-bottom: .5vmin;
   }
   
-  .star {
+  .stars-icons {
     cursor: pointer;
     color: #fdd835;
     font-size: 3vmin;
+    margin-left: .7vmin;
+    margin-right: .7vmin;
   }

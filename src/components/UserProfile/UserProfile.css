@@ -1,21 +1,20 @@
 /* UserProfile.module.css */
 
-.profileContainer {
-  border: 1px solid #ddd;
-  color: white;
+.profile-container {
+  border: 1px solid #fff;
   padding: 20px;
   margin: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(254, 250, 250, 0.1);
 }
 
-.profileHeading {
-  font-size: 24px;
+.profile-heading{
+  font-size: 20px;
   margin-bottom: 10px;
 }
 
-.profileInfo {
-  font-size: 18px;
+.profile-info {
+  font-size: 14px;
   margin-bottom: 12px;
 }
 

@@ -1,18 +1,19 @@
-// LoginForm.jsx
-
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 import { login } from '../../utilities/users-service';
+import { useNavigate, useLocation, Link } from 'react-router-dom'; 
+import './LoginForm.css';
 
-
-const LoginForm = ({ setUser }) => {
+const LoginForm = ({ setUser, toggleForm }) => {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
 
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();  
 
   const handleChange = (evt) => {
     setCredentials({
@@ -26,7 +27,11 @@ const LoginForm = ({ setUser }) => {
     evt.preventDefault();
     try {
       const user = await login(credentials);
-      setUser(user); // Assuming login function returns user data
+      setUser(user);
+
+      // Redirect to the original page or home if the state is not set
+      navigate((location.state && location.state.from) || '/');
+
     } catch {
       setError("Login Failed - Try Again");
     }
@@ -60,11 +65,15 @@ const LoginForm = ({ setUser }) => {
             />
           </div>
           <button className="Login-Out-Button" type="submit">LOG IN</button>
+          <p>
+            Don't have an account? <Link to="#" onClick={toggleForm}>Sign Up</Link>
+          </p>
         </form>
+        <p className="error-message">&nbsp;{error}</p>
       </div>
-      <p className="error-message">&nbsp;{error}</p>
     </div>
   );
 };
 
 export default LoginForm;
+

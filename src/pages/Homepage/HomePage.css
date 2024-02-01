@@ -1,18 +1,17 @@
-.HomePage {
+.home-page {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: white;
   }
 
-.AddFavoriteButton {
+.add-to-favorite-button {
    margin-right: auto;
    margin-left: 4vmin;
 }
   
-  .PlusIcon {
+  .add-movie-icon {
     cursor: pointer;
     font-size: 24px;
-    color: #4caf50;
+    color: var(--button-color);
     margin-top: 7vmin;
   }

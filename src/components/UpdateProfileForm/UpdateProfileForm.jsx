@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import Select from "react-select"; 
-import * as usersService from "../../utilities/users-service";
-import styles from "./UpdateProfileForm.module.css";
+import React, { useState, useParams } from "react";
+import Select from "react-select";
+import * as usersService from "../../utilities/updateUser-service";
+import "./UpdateProfileForm.css";
 
 // Define the countries array
 const countries = [
@@ -9,13 +9,15 @@ const countries = [
   // Add more countries as needed
 ];
 
-const UpdateProfileForm = ({ onUpdate }) => {
+const UpdateProfileForm = ({ onUpdate}) => {
+  const { userId } = useParams(); 
+
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    birthdate: "",
-    country: "",
-    profilePicture: null, // Use null to track the selected file
+    name: '',
+    email: '',
+    birthdate: '',
+    country: '',
+    profilePicture: null,
   });
 
   const handleChange = (e) => {
@@ -28,11 +30,10 @@ const UpdateProfileForm = ({ onUpdate }) => {
   const handleFileChange = (e) => {
     setFormData({
       ...formData,
-      profilePicture: e.target.files[0], // Set the selected file
+      profilePicture: e.target.files[0],
     });
   };
 
-  // Define the handleCountryChange function
   const handleCountryChange = (selectedOption) => {
     setFormData({
       ...formData,
@@ -43,26 +44,29 @@ const UpdateProfileForm = ({ onUpdate }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Create a FormData object to send the form data including the file
       const formDataToSend = new FormData();
-      formDataToSend.append("name", formData.name);
-      formDataToSend.append("email", formData.email);
-      formDataToSend.append("birthdate", formData.birthdate);
-      formDataToSend.append("country", formData.country);
-      formDataToSend.append("profilePicture", formData.profilePicture);
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('birthdate', formData.birthdate);
+      formDataToSend.append('country', formData.country);
+      formDataToSend.append('profilePicture', formData.profilePicture);
 
-      // Make a PUT request to update the user profile
-      const updatedUser = await usersService.updateUserProfile(formDataToSend);
+      // Include the userId in the updateUserProfile function
+      const updatedUser = await usersService.updateUserProfile(formDataToSend, userId);
 
-      // Trigger the onUpdate callback with the updated user data
-      onUpdate(updatedUser);
+       // Call onUpdate prop (if provided) with the updated user data
+       if (onUpdate) {
+        onUpdate(updatedUser);
+      }
     } catch (error) {
-      console.error("Error updating user profile:", error);
+      console.error('Error updating user profile:', error);
     }
   };
 
+  
+
   return (
-    <form className={styles.container} onSubmit={handleSubmit}>
+    <form className='container' onSubmit={handleSubmit}>
       <label>
         Name:
         <input
@@ -84,7 +88,7 @@ const UpdateProfileForm = ({ onUpdate }) => {
       <label>
         Birthdate:
         <input
-          type="text"
+          type="date"
           name="birthdate"
           value={formData.birthdate}
           onChange={handleChange}
@@ -106,11 +110,13 @@ const UpdateProfileForm = ({ onUpdate }) => {
           onChange={handleFileChange}
         />
       </label>
-      <button type="submit">Update Profile</button>
+      <button className="update-profile-button" type="submit">Update Profile</button>
     </form>
   );
 };
 
 export default UpdateProfileForm;
+
+
 
 

@@ -1,13 +1,22 @@
-const User = require('./users');
+const User = require('../../models/user');
 
 async function updateProfile(req, res) {
   try {
     const userId = req.params.id;
-    const { name, email, bio, profilePicture } = req.body;
+    const { name, email, birthdate, country, profilePicture } = req.body;
 
+    // Modified for partial updates
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { name, email, bio, profilePicture },
+      {
+        $set: {
+          name,
+          email,
+          birthdate,
+          country,
+          profilePicture,
+        },
+      },
       { new: true, runValidators: true }
     );
 
@@ -18,8 +27,8 @@ async function updateProfile(req, res) {
     res.json(updatedUser);
   } catch (error) {
     console.error('Error updating user profile:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Failed to update user profile', details: error.message });
   }
 }
 
-module.exports = {updateProfile};
+module.exports = { updateProfile };

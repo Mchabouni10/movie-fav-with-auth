@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { signUp } from "../../utilities/users-service";
+import { Link } from 'react-router-dom';
+import './SignUpForm.css';
 
-const SignUpForm = ({ setUser }) => {
+const SignUpForm = ({ setUser, toggleForm }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -33,7 +35,7 @@ const SignUpForm = ({ setUser }) => {
 
   return (
     <div>
-      <div className="form-container">
+      <div className="form-signup-container">
         <form autoComplete="off" onSubmit={handleSubmit}>
           <label>Name</label>
           <input
@@ -66,17 +68,20 @@ const SignUpForm = ({ setUser }) => {
             value={formData.confirm}
             onChange={handleChange}
             required
-            
           />
-           <button className='Login-Out-Button' type="submit" disabled={disable}>
+          <button className='Login-Out-Button' type="submit" disabled={disable}>
             SIGN UP
           </button>
+          <p>
+            Already have an account? <Link to="#" onClick={toggleForm}>Log In</Link>
+          </p>
         </form>
       </div>
-      <p className="error-message2">&nbsp;{error}</p>
+      <p className="error-message">&nbsp;{error}</p>
     </div>
   );
 };
 
 export default SignUpForm;
+
 

@@ -1,4 +1,4 @@
-// users-service.js in utilities 
+
 
 import * as usersAPI from './users-api';
 
@@ -41,7 +41,7 @@ export async function checkToken() {
   }
 
   const payload = JSON.parse(atob(token.split('.')[1]));
-  const expiration = payload.exp * 1000; // Convert seconds to milliseconds
+  const expiration = payload.exp * 1000; 
 
   return expiration > Date.now();
 }
@@ -57,7 +57,6 @@ export async function getCurrentUser() {
   }
 
   try {
-    // Replace the following endpoint with your actual backend API endpoint to get the current user
     const response = await fetch('/api/users/current', {
       method: 'GET',
       headers: {
@@ -66,11 +65,18 @@ export async function getCurrentUser() {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch current user');
+      console.error(`Failed to fetch current user. Status: ${response.status}`);
+      return null; // or throw an error if you want to handle it differently
     }
 
-    const user = await response.json();
-    return user;
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      const user = await response.json();
+      return user;
+    } else {
+      console.error('Invalid content type in response. Expected JSON.');
+      return null; // or handle non-JSON response appropriately
+    }
   } catch (error) {
     console.error('Error in getCurrentUser:', error);
     throw error;
@@ -78,32 +84,4 @@ export async function getCurrentUser() {
 }
 
 
-export async function updateUserProfile(formData) {
-  const token = getToken();
 
-  if (!token) {
-    // User is not authenticated
-    throw new Error('User is not authenticated');
-  }
-
-  try {
-    // Replace the following endpoint with your actual backend API endpoint to update the user profile
-    const response = await fetch('/api/users/update-profile', {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to update user profile');
-    }
-
-    const updatedUser = await response.json();
-    return updatedUser;
-  } catch (error) {
-    console.error('Error in updateUserProfile:', error);
-    throw error;
-  }
-}

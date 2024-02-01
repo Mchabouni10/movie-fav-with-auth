@@ -3,11 +3,13 @@ import Form from "../../components/Form/Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MovieDisplay from "../../components/MovieDisplay/MovieDisplay";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import styles from "./HomePage.module.css";
-import * as usersService from "../../utilities/users-service"
+import { useNavigate } from 'react-router-dom';  // Import useNavigate
+import "./HomePage.css";
+import * as usersService from "../../utilities/users-service";
 
 function HomePage() {
   const apiKey = "666b0795";
+  const navigate = useNavigate();  // Initialize useNavigate
 
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState(null);
@@ -36,11 +38,17 @@ function HomePage() {
     getMovie("Avatar");
   }, []);
 
-
-
   const addToFavorites = async (movie) => {
+    // Check if the user is signed in
+    const user = usersService.getUser();
+    if (!user) {
+      // If not signed in, redirect to sign-in page
+      navigate('/login');
+      return;
+    }
+
     try {
-      // Make a POST request to add the movie to MongoDB without authentication
+      // Make a POST request to add the movie to MongoDB with the user's ID
       const response = await fetch("/api/movies", {
         method: "POST",
         headers: {
@@ -56,7 +64,7 @@ function HomePage() {
           released: movie?.Released,
           runtime: movie?.Runtime,
           genre: movie?.Genre,
-          userID: usersService.getUser()._id
+          userID: user._id,  // Use the user's ID for association
         }),
       });
 
@@ -78,21 +86,18 @@ function HomePage() {
     }
   };
 
-
-  
-
   return (
     <div>
-      <div className={styles.HomePage}>
+      <div className='home-page'>
         <Form moviesearch={getMovie} />
-        <div className={styles.AddFavoriteButton}>
-        Click{" "}
-        <FontAwesomeIcon
-          icon={faPlus}
-          onClick={() => addToFavorites(movie)}
-          className={styles.PlusIcon}
-        />
-        {" "}to add to favorites
+        <div className='add-to-favorite-button'>
+          Click{" "}
+          <FontAwesomeIcon
+            icon={faPlus}
+            onClick={() => addToFavorites(movie)}
+            className='add-movie-icon'
+          />
+          {" "}to add to favorites
         </div>
         <MovieDisplay currentMovie={movie} />
       </div>
@@ -101,3 +106,4 @@ function HomePage() {
 }
 
 export default HomePage;
+

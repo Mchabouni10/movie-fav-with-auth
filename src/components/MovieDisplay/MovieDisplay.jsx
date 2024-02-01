@@ -1,39 +1,40 @@
 import React from 'react';
-import styles from './MovieDisplay.module.css'; 
+import './MovieDisplay.css'; 
 
 const MovieDisplay = (props) => {
   const { currentMovie } = props;
 
   const loaded = () => (
-    <div className={styles.Display}>
-      <div className={styles.leftColumn}>
-      <div className={styles.titleMovie}>{currentMovie.Title}</div>
-        <img className={styles.imageCover} src={currentMovie.Poster} alt={currentMovie.Title} />
+    <div className='movies-display'>
+      <div className='left-column'>
+      <div className='movie-title'>{currentMovie.Title}</div>
+        <img className='image-movie-cover' src={currentMovie.Poster} alt={currentMovie.Title} />
       </div>
 
-      <div className={styles.rightColumn}>
-        <h2>Details:</h2>
+      <div className='right-column'>
+        
         <ul>
+        <h4>Details:</h4>
           <li>
-            <strong className={styles.detailsMovie}>Title:</strong> {currentMovie.Title}
+            <strong className='movie-details'>Title:</strong> {currentMovie.Title}
           </li>
           <li>
-            <strong className={styles.detailsMovie}>Year:</strong> {currentMovie.Year}
+            <strong className='movie-details'>Year:</strong> {currentMovie.Year}
           </li>
           <li>
-            <strong className={styles.detailsMovie}>Rated:</strong> {currentMovie.Rated}
+            <strong className='movie-details'>Rated:</strong> {currentMovie.Rated}
           </li>
           <li>
-            <strong className={styles.detailsMovie}>Released:</strong> {currentMovie.Released}
+            <strong className='movie-details'>Released:</strong> {currentMovie.Released}
           </li>
           <li>
-            <strong className={styles.detailsMovie}>Runtime:</strong> {currentMovie.Runtime}
+            <strong className='movie-details'>Runtime:</strong> {currentMovie.Runtime}
           </li>
           <li>
-            <strong className={styles.detailsMovie}>Genre:</strong> {currentMovie.Genre}
+            <strong className='movie-details'>Genre:</strong> {currentMovie.Genre}
           </li>
           <li>
-            <strong className={styles.detailsMovie}>BoxOffice:</strong> {currentMovie.BoxOffice}
+            <strong className='movie-details'>BoxOffice:</strong> {currentMovie.BoxOffice}
           </li>
         </ul>
       </div>

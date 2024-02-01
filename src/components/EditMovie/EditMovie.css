@@ -1,28 +1,32 @@
-.container {
+.edit-container {
     max-width: 600px;
     margin: 0 auto;
+    overflow-y: auto;
+    height: 500px;
   }
   
-    form {
+.edit-form {
     display: flex;
     flex-direction: column;
     gap: 16px;
   }
   
-   label {
+.edit-label {
     font-weight: bold;
   }
   
-    input {
+  .edit-label input {
     padding: 8px;
     font-size: 14px;
     color: black;
   }
   
-   button {
+.edit-button {
     padding: 10px;
     background-color: #4caf50;
     color: white;
     border: none;
     cursor: pointer;
   }
+  
+ 

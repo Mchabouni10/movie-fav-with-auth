@@ -1,29 +1,40 @@
 // UserLogOut.js
 
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { logOut } from '../../utilities/users-service';
-import styles from './UserLogOut.module.css';
+import './UserLogOut.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-
-
-
+import { faArrowRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
 
 export default function UserLogOut({ user, setUser }) {
- 
-
-
+  const navigate = useNavigate();
 
   function handleLogOut() {
     logOut();
     setUser(null);
   }
 
+  function handleSignIn() {
+    // Redirect to the login page when Sign In button is clicked
+    navigate('/login');
+  }
+
   return (
-    <div className={styles.UserLogOut}>
-      <div>{user.name}
-      <FontAwesomeIcon className={styles.logoutIcon} icon={faArrowRightFromBracket} onClick={handleLogOut} /> 
-      </div>
+    <div className='user-logout'>
+      {user ? (
+        // If user is signed in, show user's name and logout icon
+        <div>
+          {user.name}
+          <FontAwesomeIcon className='user-logout-icon' icon={faArrowRightFromBracket} onClick={handleLogOut} />
+        </div>
+      ) : (
+        // If no user is signed in, show "Sign In" button
+        <button className='signin-button' onClick={handleSignIn}><FontAwesomeIcon className='faUser-icon' icon={faUser} />Sign In</button>
+      )}
     </div>
   );
 }
+
+
+

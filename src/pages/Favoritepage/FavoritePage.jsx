@@ -5,8 +5,9 @@ import {
   faTrash,
   faPenToSquare,
   faArrowLeft,
+  faHouse,
 } from "@fortawesome/free-solid-svg-icons";
-import styles from "./FavoritePage.module.css";
+import "./FavoritePage.css";
 import * as usersService from "../../utilities/users-service";
 import Rating from "./../../components/Rating/Rating";
 
@@ -117,11 +118,11 @@ const FavoritePage = () => {
   
 
   return (
-    <div className={styles.container}>
-      <div className={styles.sortOptions}>
-      <h2 className={styles.title}>
+    <div className='favorite-movie-container'>
+      <div className='sort-movie-option'>
+      <h2 className='favorite-movie-title'>
       Favorites Movies (
-      <span style={{ color: '#4caf50', fontSize: '22px' }}>
+      <span className='favorite-movie-number'>
         {numberOfMovies}
       </span>)
     </h2>
@@ -154,16 +155,16 @@ const FavoritePage = () => {
       </div>
 
       {/* Go back to Home link */}
-      <Link to="/" className={styles.link}>
-        <FontAwesomeIcon
+      <Link to="/" className='link-home-page'>
+        {/* <FontAwesomeIcon
           icon={faArrowLeft}
-          className={styles.iconBackWay}
-        />
-        <span className={styles.text}>Go back to Home</span>
+          className='back-way-icon'
+        /> */}
+        <FontAwesomeIcon className='back-home-title' icon={faHouse} />
       </Link>
 
       {/* Movie list */}
-      <ul className={styles.list}>
+      <ul className='movie-list'>
         {favorites && favorites.length > 0 ? (
           favorites
             .sort((a, b) => {
@@ -198,17 +199,17 @@ const FavoritePage = () => {
               return 0;
             })
             .map((fav) => (
-              <li key={fav._id} className={styles.listItem}>
-                <div className={styles.FontAwesomeIcons2}>
+              <li key={fav._id} className='movie-list-items'>
+                <div className='fontawesome-icons'>
                   <FontAwesomeIcon
                     icon={faPenToSquare}
                     onClick={() => handleEdit(fav._id)}
-                    className={styles.editFontAwesome2}
+                    className='fontawesome-edit-icon'
                   />
                   <FontAwesomeIcon
                     icon={faTrash}
                     onClick={() => handleRemove(fav._id)}
-                    className={styles.deleteFontAwesome2}
+                    className='fontawesome-delete-icon'
                   />
                 </div>
 
@@ -216,10 +217,10 @@ const FavoritePage = () => {
                   <img
                     src={fav.poster}
                     alt={`${fav.title} Poster`}
-                    className={styles.poster}
+                    className='movie-favorite-poster'
                   />
                 )}
-                <div className={styles.info}>
+                <div className='favorite-movie-information'>
                   <strong>Title:</strong> {fav.title} <br />
                   <strong>Year:</strong> {fav.year} <br />
                   <strong>BoxOffice:</strong> {fav.boxOffice} <br />
@@ -228,7 +229,7 @@ const FavoritePage = () => {
                   <strong>Runtime:</strong> {fav.runtime} <br />
                   <strong>Genre:</strong> {fav.genre}
                 </div>
-                <div className={styles.ratingContainer}>
+                <div className='rating-container'>
                   <Rating
                     initialRating={fav.rating || 0} // Use the movie's existing rating, default to 0
                     onChange={(newRating) => handleRatingChange(fav._id, newRating)}
@@ -238,7 +239,7 @@ const FavoritePage = () => {
               </li>
             ))
         ) : (
-          <p className={styles.listItem}>No favorites yet.</p>
+          <p className='empty-movie-list'>No favorites yet.</p>
         )}
       </ul>
     </div>

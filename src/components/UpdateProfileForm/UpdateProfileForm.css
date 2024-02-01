@@ -1,0 +1,29 @@
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+  form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+ label {
+  font-weight: bold;
+}
+
+  input {
+  padding: 8px;
+  font-size: 14px;
+  color: black;
+}
+
+ button {
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+  

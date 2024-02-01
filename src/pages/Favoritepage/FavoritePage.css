@@ -1,69 +1,80 @@
-/* FavoritePage.module.css */
 
-.container {
-  padding: 20px;
-  color: white;
+
+.favorite-movie-container {
+  padding: 2.2vmin;
 }
 
-.title {
-  color: white;
-  font-size: 24px;
+.favorite-movie-title {
+  font-size: 3.5vmin;
+  
 }
 
-.sortOptions {
+.sort-movie-option {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: .5vmin;
+  
 }
 
-.sortOptions label {
+.sort-movie-option label {
   margin-right: 2vmin;
   margin-left: 5vmin;
+  color: var(--button-color);
+  
 }
 
-.sortOptions select {
+.sort-movie-option select {
   margin-right: 2vmin;
+  border: 1px solid var(--button-color);
 }
 
-.list {
+.favorite-movie-number{
+  color: var(--button-color);
+}
+
+.movie-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 15px;
+  gap: 2.2vmin;
   list-style: none;
   padding: 0;
-  margin-top: 15px;
 }
 
-.iconBackWay {
+.back-way-icon {
   margin-right: 1vmin;
-  color: #4caf50;
+  color: var(--button-color);
   font-size: 3vmin;
   font-weight: bold;
 }
 
-.listItem {
-  color: white;
+.back-home-title {
+  margin: 0;
+  color: var(--button-color);
+  size: 5vmin;
+}
+
+.movie-list-items {
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   position: relative;
-  margin-bottom: 20px;
+  border: .6px solid var(--button-color);
 }
 
-.poster {
+.movie-favorite-poster {
   width: 100%; 
   height: auto;
   border-radius: 8px;
-  margin-bottom: 4px;
+  margin-bottom: 1px;
 }
 
-.info {
+.favorite-movie-information {
   flex-grow: 1;
   font-size: 2.5vmin;
   margin: 2vmin;
 }
 
-.FontAwesomeIcons2 {
+.fontawesome-icons {
   display: flex;
   justify-content: space-between;
   position: absolute;
@@ -74,26 +85,29 @@
   background-color: rgba(8, 7, 16, 0.5); 
 }
 
-.editFontAwesome2 {
+.fontawesome-edit-icon {
   border-radius: 5px;
   font-size: 3vmin;
   margin-right: 2vmin;
-  color: #4caf50;
+  margin-top: .5vmin;
+  color: var(--button-color);
   cursor: pointer;
 }
 
-.deleteFontAwesome2 {
+.fontawesome-delete-icon {
   border-radius: 5px;
   font-size: 3vmin;
   margin-right: 2vmin;
-  color: red;
+  margin-top: .5vmin;
+  color: rgb(255, 0, 25);
   cursor: pointer;
 }
 
-.link {
-  color: white;
+.link-home-page {
   text-decoration: none;
   display: inline-block;
   font-weight: bold;
-  margin: 2vmin;
+  margin-left: 2vmin;
+  font-size: 3vmin;
+  color: var(--button-color);
 }

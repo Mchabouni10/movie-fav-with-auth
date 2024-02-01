@@ -1,5 +1,45 @@
 .App {
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; */
   
 }
 
+/* body {
+  margin: 0;
+  padding: 0;
+} */
+
+.dark-mode {
+  background-color: var(--background-color);
+  color: #fff;
+}
+
+.light-mode {
+  background-color: #d0cfcf;
+  color: var(--background-color);
+}
+
+
+.switch {
+  display: flex;
+  width: 100vw;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+}
+
+.switch label {
+  margin: 10px;
+}
+
+#light .switch label {
+  color: black;
+}
+
+#dark .switch label {
+  color: white;
+}

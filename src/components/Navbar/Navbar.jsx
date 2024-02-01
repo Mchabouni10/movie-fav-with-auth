@@ -1,22 +1,26 @@
 // Navbar.js
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons"; 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; 
 import * as userService from "../../utilities/users-service";
-import styles from "./Navbar.module.css";
+import "./Navbar.css";
 import UserLogOut from "../UserLogOut/UserLogOut";
+import { ThemeContext } from "../ThemeContext/ThemeContext";
 
 function Navbar({ user, setUser }) {
   const location = useLocation();
+  const { isDarkMode, toggleTheme } = useContext(ThemeContext);
 
   return (
-    <nav className={styles.navbar}>
-      <div className={styles.NavbarContainer}>
-        <div className={styles.leftSection}>
+    <nav className={`navbar-class ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
+      <div className="navbar-container">
+        <div className="leftSection">
           {/* Home Link */}
           <Link
             to="/"
-            className={`${styles.HomeLinkPage} ${
-              location.pathname === "/" ? styles.active : ""
+            className={`navbar-links ${
+              location.pathname === "/" ? 'active' : ''
             }`}
           >
             {location.pathname === "/" ? "Home" : "Home"}
@@ -25,11 +29,11 @@ function Navbar({ user, setUser }) {
           {/* Profile Link */}
           <Link
             to="/profile"
-            className={`${styles.profileLink} ${
-              location.pathname === "/profile" ? styles.active : ""
+            className={`navbar-links ${
+              location.pathname === "/profile" ? 'active' : ''
             }`}
           >
-            {location.pathname === "/profile"
+            {location.pathname === "/profile" && user
               ? `You are in ${user.name}'s Profile`
               : "Profile"}
           </Link>
@@ -37,8 +41,8 @@ function Navbar({ user, setUser }) {
           {/* Favorites Link */}
           <Link
             to="/favorites"
-            className={`${styles.favoritePageLink} ${
-              location.pathname === "/favorites" ? styles.active : ""
+            className={`navbar-links ${
+              location.pathname === "/favorites" ? 'active' : ''
             }`}
           >
             {location.pathname === "/favorites"
@@ -47,7 +51,22 @@ function Navbar({ user, setUser }) {
           </Link>
         </div>
 
-        <div className={styles.rightSection}>
+        <div className="rightSection">
+          <div className="theme-switch">
+          <label>
+              <input
+                type="checkbox"
+                checked={isDarkMode}
+                onChange={toggleTheme}
+              />
+              <span className="slider round">
+                <span className="moon"><FontAwesomeIcon icon={faMoon} /></span>
+                <span className="sun"><FontAwesomeIcon icon={faSun} /></span>
+              </span>
+            </label>
+          </div>
+
+          {/* User Logout */}
           <UserLogOut user={user} setUser={setUser} />
         </div>
       </div>
@@ -56,3 +75,7 @@ function Navbar({ user, setUser }) {
 }
 
 export default Navbar;
+
+
+
+
