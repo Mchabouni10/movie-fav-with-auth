@@ -1,5 +1,8 @@
 services:
-  - name: web
+  - name: fav-movies-c
     type: web
-    buildCommand: npm run build
-    startCommand: npm start
+    region: oregon
+    github:
+      branch: main
+    buildCommand: npm install; npm run build
+    startCommand: node server.js
