@@ -1,10 +1,8 @@
 // UserProfile.js
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import * as usersService from "../../utilities/users-service";
 import sendRequest from "../../utilities/send-request";
 import "./UserProfile.css";
-import UpdateProfileForm from "../UpdateProfileForm/UpdateProfileForm";
 import { logOut } from "../../utilities/users-service";
 
 const UserProfile = () => {
@@ -25,10 +23,10 @@ const UserProfile = () => {
   }, [userId]);
 
   
-  const handleUpdateProfile = (updatedUser) => {
-    // Update the user state with the new user data
-    setUser(updatedUser);
-  };
+  // const handleUpdateProfile = (updatedUser) => {
+  //   // Update the user state with the new user data
+  //   setUser(updatedUser);
+  // };
 
   const handleLogOut = () => {
     logOut();

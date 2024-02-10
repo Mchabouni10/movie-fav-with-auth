@@ -3,7 +3,6 @@ import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; 
-import * as userService from "../../utilities/users-service";
 import "./Navbar.css";
 import UserLogOut from "../UserLogOut/UserLogOut";
 import { ThemeContext } from "../ThemeContext/ThemeContext";

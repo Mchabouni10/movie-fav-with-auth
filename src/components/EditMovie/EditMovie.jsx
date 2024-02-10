@@ -17,22 +17,22 @@ const EditMovie = () => {
   });
 
   useEffect(() => {
-    fetchMovieDetails();
-  }, [fetchMovieDetails]);
+    const fetchMovieDetails = async () => {
+      try {
+        const response = await fetch(`/api/movies/${id}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch movie details');
+        }
 
-  const fetchMovieDetails = async () => {
-    try {
-      const response = await fetch(`/api/movies/${id}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch movie details');
+        const movieData = await response.json();
+        setMovie(movieData);
+      } catch (error) {
+        console.error('Error fetching movie details:', error);
       }
+    };
 
-      const movieData = await response.json();
-      setMovie(movieData);
-    } catch (error) {
-      console.error('Error fetching movie details:', error);
-    }
-  };
+    fetchMovieDetails();
+  }, [id]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -58,6 +58,8 @@ const EditMovie = () => {
       console.error('Error updating movie:', error);
     }
   };
+
+
 
   return (
     <div className='edit-container'>
