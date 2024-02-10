@@ -18,7 +18,7 @@ const EditMovie = () => {
 
   useEffect(() => {
     fetchMovieDetails();
-  }, []);
+  }, [fetchMovieDetails]);
 
   const fetchMovieDetails = async () => {
     try {
