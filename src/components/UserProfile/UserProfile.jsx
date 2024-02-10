@@ -22,7 +22,7 @@ const UserProfile = () => {
     };
 
     fetchUserProfile();
-  }, []);
+  }, [userId]);
 
   
   const handleUpdateProfile = (updatedUser) => {
@@ -67,7 +67,7 @@ const UserProfile = () => {
         <strong>Location:</strong> {user.location || "N/A"}
       </p>
 
-      <Link to={`/update-profile/${userId}`} className="update-profile-link">
+      <Link to={`/update-profile/${user._id}`} className="update-profile-link">
         Update Profile
       </Link>
 

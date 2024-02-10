@@ -23,7 +23,15 @@ const userSchema = new Schema(
       minLength: 3,
       required: true,
     },
+    // Add new fields here:
+    country: { type: String },
+    birthdate: { type: Date },
+    profilePicture: {
+      type: Buffer, // Stores the binary image data
+      contentType: { type: String }, // Optional: Store the image content type
+    },
   },
+  
   {
     timestamps: true,
     // Even though it's hashed - don't serialize the password

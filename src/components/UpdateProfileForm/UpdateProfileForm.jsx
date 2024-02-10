@@ -1,23 +1,22 @@
-import React, { useState, useParams } from "react";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import Select from "react-select";
 import * as usersService from "../../utilities/updateUser-service";
 import "./UpdateProfileForm.css";
 
-// Define the countries array
 const countries = [
-  { value: "USA", label: "United States" },
-  // Add more countries as needed
+  // ... your country definitions
 ];
 
-const UpdateProfileForm = ({ onUpdate}) => {
-  const { userId } = useParams(); 
+const UpdateProfileForm = ({ onUpdate }) => {
+  const { userId } = useParams();
 
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    birthdate: '',
-    country: '',
-    profilePicture: null,
+    name: "",
+    email: "",
+    birthdate: "",
+    country: "",
+    profilePicture: null, // Initial state for profile picture
   });
 
   const handleChange = (e) => {
@@ -28,9 +27,16 @@ const UpdateProfileForm = ({ onUpdate}) => {
   };
 
   const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+
+    if (!selectedFile.type.startsWith("image/")) {
+      console.error("Invalid file type: Only images allowed.");
+      return;
+    }
+
     setFormData({
       ...formData,
-      profilePicture: e.target.files[0],
+      profilePicture: URL.createObjectURL(selectedFile),
     });
   };
 
@@ -43,30 +49,34 @@ const UpdateProfileForm = ({ onUpdate}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const formDataToSend = new FormData();
-      formDataToSend.append('name', formData.name);
-      formDataToSend.append('email', formData.email);
-      formDataToSend.append('birthdate', formData.birthdate);
-      formDataToSend.append('country', formData.country);
-      formDataToSend.append('profilePicture', formData.profilePicture);
+      formDataToSend.append("name", formData.name);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("birthdate", formData.birthdate);
+      formDataToSend.append("country", formData.country);
+      formDataToSend.append("profilePicture", formData.profilePicture);
 
-      // Include the userId in the updateUserProfile function
-      const updatedUser = await usersService.updateUserProfile(formDataToSend, userId);
+      const updatedUser = await usersService.updateUserProfile(
+        formDataToSend,
+        userId
+      );
 
-       // Call onUpdate prop (if provided) with the updated user data
-       if (onUpdate) {
+      if (onUpdate) {
         onUpdate(updatedUser);
       }
     } catch (error) {
-      console.error('Error updating user profile:', error);
+      console.error("Error updating user profile:", error);
     }
   };
+
+
 
   
 
   return (
-    <form className='container' onSubmit={handleSubmit}>
+    <form className="container" onSubmit={handleSubmit}>
       <label>
         Name:
         <input
@@ -97,20 +107,23 @@ const UpdateProfileForm = ({ onUpdate}) => {
       <label>
         Country:
         <Select
-          options={countries}
-          value={countries.find((c) => c.value === formData.country)}
-          onChange={handleCountryChange}
-        />
+  options={countries.map(country => ({ value: country, label: country }))}
+  value={countries.find(c => c.value === formData.country)}
+  onChange={handleCountryChange}
+/>
       </label>
       <label>
         Profile Picture:
         <input
           type="file"
           name="profilePicture"
+          accept="image/*"
           onChange={handleFileChange}
         />
       </label>
-      <button className="update-profile-button" type="submit">Update Profile</button>
+      <button className="update-profile-button" type="submit">
+        Update Profile
+      </button>
     </form>
   );
 };
