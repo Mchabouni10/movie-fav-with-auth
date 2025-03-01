@@ -1,6 +1,5 @@
-// App.js
 import React from "react";
-import { Routes, Route, Navigate, useParams } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { getUser } from "./utilities/users-service";
 import AuthPage from "./components/AuthPage/AuthPage";
 import Navbar from "./components/Navbar/Navbar";
@@ -13,24 +12,19 @@ import UpdateProfileForm from "./components/UpdateProfileForm/UpdateProfileForm"
 import { ThemeProvider } from "../src/components/ThemeContext/ThemeContext";
 import "./App.css";
 
-
-
-
 function App() {
   const [user, setUser] = React.useState(getUser());
-  const { id: userId } = useParams();
 
+  // Function to require authentication for protected routes
   const requireAuth = (element) => {
     return user ? element : <Navigate to="/login" />;
   };
 
-
+  // Function to handle profile updates
   const handleProfileUpdate = (updatedUser) => {
-    setUser(updatedUser);
+    setUser(updatedUser); // Update the user state with the new data
     alert("Profile updated successfully!");
   };
-
- 
 
   return (
     <ThemeProvider>
@@ -44,9 +38,7 @@ function App() {
             {/* Favorites and Profile pages require authentication */}
             <Route
               path="/favorites"
-              element={requireAuth(
-                <FavoritePage user={user} setUser={setUser} />
-              )}
+              element={requireAuth(<FavoritePage user={user} setUser={setUser} />)}
             />
 
             <Route
@@ -57,11 +49,16 @@ function App() {
               path="/favorites/:id/edit"
               element={requireAuth(<EditMovie />)}
             />
-            <Route path="/profile" element={requireAuth(<UserProfile />)} />
+
+            {/* User Profile and Update Profile routes */}
             <Route
-              path="/update-profile/:id"
+              path="/profile"
+              element={requireAuth(<UserProfile user={user} />)}
+            />
+            <Route
+              path="/update-profile/:userId"
               element={requireAuth(
-                <UpdateProfileForm onUpdate={handleProfileUpdate} userId={userId} />
+                <UpdateProfileForm onUpdate={handleProfileUpdate} />
               )}
             />
 

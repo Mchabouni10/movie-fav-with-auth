@@ -1,9 +1,22 @@
+/* Futuristic Font */
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
+
+.navbar-class {
+  background: linear-gradient(135deg, var(--background-dark));
+  padding: 1vmin 0;
+  font-family: 'Orbitron', sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
 
 .navbar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 3vmin;
+  padding: 2vmin 5vmin;
+  max-width: 1200px;
+  margin: 0 2vmin;
 }
 
 .navbar-links {
@@ -11,25 +24,48 @@
   margin-right: 3vmin;
   text-decoration: none;
   font-weight: bold;
-  font-size: 2.7vmin;
+  font-size: 2.5vmin;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 0.5vmin 1vmin;
+  border-radius: 5px;
 }
 
 .navbar-links:hover {
   color: var(--text-light);
-  margin-right: 3vmin;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 2.7vmin;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-links::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: var(--button-color);
+  bottom: -5px;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.navbar-links:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 .leftSection {
   display: flex;
   align-items: center;
+  gap: 2vmin;
 }
 
 .rightSection {
   display: flex;
   align-items: center;
+  gap: 2vmin;
 }
 
 .theme-switch {
@@ -39,8 +75,8 @@
 .theme-switch label {
   position: relative;
   display: inline-block;
-  width: 40px;
-  height: 15px;
+  width: 50px;
+  height: 25px;
 }
 
 .theme-switch input {
@@ -55,20 +91,19 @@
   right: 0;
   bottom: 0;
   background-color: var(--background-dark);
-  -webkit-transition: 0.4s;
   transition: 0.4s;
   border-radius: 34px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .theme-switch .slider:before {
   position: absolute;
   content: '';
-  height: 14px;
-  width: 14px;
-  left: 5px;
-  bottom: 0px;
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 2.5px;
   background-color: white;
-  -webkit-transition: 0.4s;
   transition: 0.4s;
   border-radius: 50%;
 }
@@ -79,14 +114,15 @@
   top: 50%;
   transform: translateY(-50%);
   color: var(--button-color);
+  font-size: 1.2vmin;
 }
 
 .theme-switch .slider .moon {
-  left: 4px;
+  left: 5px;
 }
 
 .theme-switch .slider .sun {
-  right: 4px;
+  right: 5px;
 }
 
 .theme-switch input:checked + .slider {
@@ -94,9 +130,7 @@
 }
 
 .theme-switch input:checked + .slider:before {
-  -webkit-transform: translateX(16px);
-  -ms-transform: translateX(16px);
-  transform: translateX(16px);
+  transform: translateX(25px);
 }
 
 .theme-switch .slider.round {
@@ -105,6 +139,22 @@
 
 .theme-switch .slider.round:before {
   border-radius: 50%;
+}
+
+/* Dark Mode Styles */
+.dark-mode {
+  --background-dark: #1a1a1a;
+  --background-light: #2a2a2a;
+  --button-color: #4caf50;
+  --text-light: #ffffff;
+}
+
+/* Light Mode Styles */
+.light-mode {
+  --background-dark: #f0f0f0;
+  --background-light: #ffffff;
+  --button-color: #007bff;
+  --text-light: #000000;
 }
 
 

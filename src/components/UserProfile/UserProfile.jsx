@@ -22,11 +22,9 @@ const UserProfile = () => {
     fetchUserProfile();
   }, [userId]);
 
-  
-  // const handleUpdateProfile = (updatedUser) => {
-  //   // Update the user state with the new user data
-  //   setUser(updatedUser);
-  // };
+  const handleUpdateProfile = (updatedUser) => {
+    setUser(updatedUser);
+  };
 
   const handleLogOut = () => {
     logOut();

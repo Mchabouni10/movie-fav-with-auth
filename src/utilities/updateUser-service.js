@@ -4,11 +4,7 @@ import { getToken } from './users-service';
 export async function updateUserProfile(formData, userId) {
   const token = getToken();
 
-  console.log('Token:', token);
-  console.log('User ID:', userId);
-
   if (!token || !userId) {
-    // User is not authenticated or userId is missing
     console.error('User is not authenticated or User ID is missing');
     throw new Error('User is not authenticated or User ID is missing');
   }
@@ -40,6 +36,5 @@ export async function updateUserProfile(formData, userId) {
     throw error;
   }
 }
-
 
   

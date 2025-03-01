@@ -1,3 +1,6 @@
+//routes/api/movies.js
+// Import the express library
+
 const express = require('express');
 const router = express.Router();
 const movieController = require('../../controllers/api/movies');

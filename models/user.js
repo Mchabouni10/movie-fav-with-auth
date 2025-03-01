@@ -1,4 +1,5 @@
-//user.js in models
+//models/user.js
+// Define the user schema
 
 
 const mongoose = require("mongoose");

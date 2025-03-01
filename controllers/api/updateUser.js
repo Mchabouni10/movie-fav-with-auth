@@ -3,20 +3,17 @@ const User = require('../../models/user');
 async function updateProfile(req, res) {
   try {
     const userId = req.params.id;
-    const { name, email, birthdate, country, profilePicture } = req.body;
+    const updates = req.body;
 
-    // Modified for partial updates
+    // Handle file upload for profile picture
+    if (req.file) {
+      updates.profilePicture = req.file.path; // Save the file path to the database
+    }
+
+    // Update the user profile
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      {
-        $set: {
-          name,
-          email,
-          birthdate,
-          country,
-          profilePicture,
-        },
-      },
+      { $set: updates },
       { new: true, runValidators: true }
     );
 

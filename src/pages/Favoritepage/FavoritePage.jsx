@@ -86,34 +86,36 @@ const FavoritePage = () => {
 
   return (
     <div className='favorite-movie-container'>
-      <div className='sort-movie-option'>
+      <div className='favorite-movie-header'>
         <h2 className='favorite-movie-title'>
           Favorites Movies (
           <span className='favorite-movie-number'>{numberOfMovies}</span>)
         </h2>
-        <label htmlFor="sortBy">Sort By:</label>
-        <select
-          id="sortBy"
-          onChange={(e) => setSortBy(e.target.value)}
-          value={sortBy}
-        >
-          <option value="">Select</option>
-          <option value="title">Title</option>
-          <option value="genre">Genre</option>
-          <option value="boxOffice">BoxOffice</option>
-          <option value="rated">Rated</option>
-          <option value="released">Released</option>
-          <option value="runtime">Runtime</option>
-        </select>
-        <label htmlFor="sortOrder">Order:</label>
-        <select
-          id="sortOrder"
-          onChange={(e) => setSortOrder(e.target.value)}
-          value={sortOrder}
-        >
-          <option value="asc">Ascending</option>
-          <option value="desc">Descending</option>
-        </select>
+        <div className='sort-movie-option'>
+          <label htmlFor="sortBy">Sort By:</label>
+          <select
+            id="sortBy"
+            onChange={(e) => setSortBy(e.target.value)}
+            value={sortBy}
+          >
+            <option value="">Select</option>
+            <option value="title">Title</option>
+            <option value="genre">Genre</option>
+            <option value="boxOffice">BoxOffice</option>
+            <option value="rated">Rated</option>
+            <option value="released">Released</option>
+            <option value="runtime">Runtime</option>
+          </select>
+          <label htmlFor="sortOrder">Order:</label>
+          <select
+            id="sortOrder"
+            onChange={(e) => setSortOrder(e.target.value)}
+            value={sortOrder}
+          >
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+        </div>
       </div>
 
       <Link to="/" className='link-home-page'>
@@ -199,6 +201,9 @@ const FavoritePage = () => {
 };
 
 export default FavoritePage;
+
+
+
 
 
 

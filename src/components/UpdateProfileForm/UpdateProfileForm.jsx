@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Select from "react-select";
-import * as usersService from "../../utilities/updateUser-service";
+import { getCurrentUser } from "../../utilities/users-service"; // Import getCurrentUser
+import { updateUserProfile } from "../../utilities/updateUser-service"; // Import updateUserProfile
 import "./UpdateProfileForm.css";
 
 const countries = [
-  // ... your country definitions
+  { value: "USA", label: "United States" },
+  { value: "CA", label: "Canada" },
+  // Add more countries as needed
 ];
 
 const UpdateProfileForm = ({ onUpdate }) => {
@@ -16,8 +19,30 @@ const UpdateProfileForm = ({ onUpdate }) => {
     email: "",
     birthdate: "",
     country: "",
-    profilePicture: null, // Initial state for profile picture
+    profilePicture: null,
   });
+
+  useEffect(() => {
+    // Fetch the current user data and populate the form
+    const fetchUserData = async () => {
+      try {
+        const user = await getCurrentUser(); // Fetch current user data
+        if (user) {
+          setFormData({
+            name: user.name || "",
+            email: user.email || "",
+            birthdate: user.birthdate || "",
+            country: user.country || "",
+            profilePicture: user.profilePicture || null,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [userId]);
 
   const handleChange = (e) => {
     setFormData({
@@ -36,7 +61,7 @@ const UpdateProfileForm = ({ onUpdate }) => {
 
     setFormData({
       ...formData,
-      profilePicture: URL.createObjectURL(selectedFile),
+      profilePicture: selectedFile,
     });
   };
 
@@ -56,24 +81,19 @@ const UpdateProfileForm = ({ onUpdate }) => {
       formDataToSend.append("email", formData.email);
       formDataToSend.append("birthdate", formData.birthdate);
       formDataToSend.append("country", formData.country);
-      formDataToSend.append("profilePicture", formData.profilePicture);
+      if (formData.profilePicture) {
+        formDataToSend.append("profilePicture", formData.profilePicture);
+      }
 
-      const updatedUser = await usersService.updateUserProfile(
-        formDataToSend,
-        userId
-      );
+      const updatedUser = await updateUserProfile(formDataToSend, userId);
 
       if (onUpdate) {
-        onUpdate(updatedUser);
+        onUpdate(updatedUser); // Notify parent component of the update
       }
     } catch (error) {
       console.error("Error updating user profile:", error);
     }
   };
-
-
-
-  
 
   return (
     <form className="container" onSubmit={handleSubmit}>
@@ -107,10 +127,10 @@ const UpdateProfileForm = ({ onUpdate }) => {
       <label>
         Country:
         <Select
-  options={countries.map(country => ({ value: country, label: country }))}
-  value={countries.find(c => c.value === formData.country)}
-  onChange={handleCountryChange}
-/>
+          options={countries}
+          value={countries.find((c) => c.value === formData.country)}
+          onChange={handleCountryChange}
+        />
       </label>
       <label>
         Profile Picture:
@@ -129,7 +149,6 @@ const UpdateProfileForm = ({ onUpdate }) => {
 };
 
 export default UpdateProfileForm;
-
 
 
 

@@ -3,22 +3,62 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 2vmin;
 }
 
+.SearchForm {
+  display: flex;
+  align-items: center;
+  background: var(--text-light);
+  border-radius: 25px;
+  padding: 0.5vmin 1vmin;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
 
-.searchIcon {
-  color: #4caf50;
-  margin-left: 3vmin;
-  font-size: 4.5vmin;
-  cursor: pointer;
+.SearchForm:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
 .SearchInput {
   color: black;
-  padding: 7px;
+  padding: 10px;
   font-size: 16px;
-  border: 1px solid black;
-  border-radius: 4px;
-  width: 550px;
-  margin-top: 5px;
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 450px;
+  transition: all 0.3s ease;
+}
+
+.SearchInput::placeholder {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.SearchInput:focus {
+  width: 500px;
+}
+
+.SearchButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 1vmin;
+  transition: all 0.3s ease;
+}
+
+.SearchButton:hover {
+  transform: scale(1.1);
+}
+
+.searchIcon {
+  color: #4caf50;
+  font-size: 4.5vmin;
+  transition: all 0.3s ease;
+  margin-left: 2vmin;
+}
+
+.searchIcon:hover {
+  color: #e5e5e5;
 }

@@ -14,7 +14,7 @@ const MovieDisplay = (props) => {
       <div className='right-column'>
         
         <ul>
-        <h4>Details:</h4>
+        <h2 className='Details-title'>Details:</h2>
           <li>
             <strong className='movie-details'>Title:</strong> {currentMovie.Title}
           </li>

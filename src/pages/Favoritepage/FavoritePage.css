@@ -1,35 +1,70 @@
-
-
 .favorite-movie-container {
   padding: 2.2vmin;
+  background: var(--background-color);
+  color: var(--text-light);
+}
+
+.favorite-movie-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2vmin;
 }
 
 .favorite-movie-title {
   font-size: 3.5vmin;
-  
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: var(--text-light);
+  margin: 0;
 }
 
 .sort-movie-option {
   display: flex;
   align-items: center;
-  margin-bottom: .5vmin;
-  
+  gap: 1.5vmin;
+  margin: 0;
 }
 
 .sort-movie-option label {
-  margin-right: 2vmin;
-  margin-left: 5vmin;
   color: var(--button-color);
-  
+  font-size: 2vmin;
+  font-weight: bold;
 }
 
 .sort-movie-option select {
-  margin-right: 2vmin;
+  padding: 0.8vmin 1.5vmin;
   border: 1px solid var(--button-color);
+  border-radius: 5px;
+  background: var(--background-light);
+  color: var(--text-light);
+  font-size: 1.5vmin;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234CAF50'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1vmin center;
+  background-size: 2vmin;
 }
 
-.favorite-movie-number{
+.sort-movie-option select option {
+  background: var(--background-color);
+  color: var(--text-light);
+  font-size: 1.5vmin;
+  padding: 0.8vmin 1.5vmin;
+}
+
+.sort-movie-option select option:hover {
+  background: var(--button-color);
+  color: var(--background-color);
+}
+
+.favorite-movie-number {
   color: var(--button-color);
+  font-weight: bold;
 }
 
 .movie-list {
@@ -40,67 +75,80 @@
   padding: 0;
 }
 
-.back-way-icon {
-  margin-right: 1vmin;
-  color: var(--button-color);
-  font-size: 3vmin;
-  font-weight: bold;
-}
-
-.back-home-title {
-  margin: 0;
-  color: var(--button-color);
-  size: 5vmin;
-}
-
 .movie-list-items {
-  border-radius: 8px;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   position: relative;
-  border: .6px solid var(--button-color);
+  border: 1px solid var(--button-color);
+  background: var(--background-light);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.movie-list-items:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px var(--shadow-color);
 }
 
 .movie-favorite-poster {
-  width: 100%; 
+  width: 100%;
   height: auto;
-  border-radius: 8px;
-  margin-bottom: 1px;
+  border-radius: 12px 12px 0 0;
+  transition: transform 0.3s ease;
+}
+
+.movie-list-items:hover .movie-favorite-poster {
+  transform: scale(1.05);
 }
 
 .favorite-movie-information {
   flex-grow: 1;
-  font-size: 2.5vmin;
-  margin: 2vmin;
+  font-family: 'Inter', sans-serif;
+  font-weight: 300; /* Medium */
+  font-size: 1.7vmin;
+  padding: 2vmin;
+  color: var(--text-light);
+}
+
+.favorite-movie-information strong {
+  color: var(--button-color);
 }
 
 .fontawesome-icons {
   display: flex;
   justify-content: space-between;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 1vmin;
+  right: 1vmin;
   z-index: 5;
-  margin: 0;
-  background-color: rgba(8, 7, 16, 0.5); 
+  background: rgba(8, 7, 16, 0.8);
+  border-radius: 8px;
+  padding: 0.5vmin;
+}
+
+.fontawesome-edit-icon,
+.fontawesome-delete-icon {
+  font-size: 2vmin;
+  margin: 0 1vmin;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
 
 .fontawesome-edit-icon {
-  border-radius: 5px;
-  font-size: 3vmin;
-  margin-right: 2vmin;
-  margin-top: .5vmin;
   color: var(--button-color);
-  cursor: pointer;
+}
+
+.fontawesome-edit-icon:hover {
+  color: var(--text-light);
 }
 
 .fontawesome-delete-icon {
-  border-radius: 5px;
-  font-size: 3vmin;
-  margin-right: 2vmin;
-  margin-top: .5vmin;
   color: rgb(255, 0, 25);
-  cursor: pointer;
+}
+
+.fontawesome-delete-icon:hover {
+  color: var(--text-light);
 }
 
 .link-home-page {
@@ -110,4 +158,59 @@
   margin-left: 2vmin;
   font-size: 3vmin;
   color: var(--button-color);
+  transition: color 0.3s ease;
+}
+
+.link-home-page:hover {
+  color: var(--text-light);
+}
+
+.empty-movie-list {
+  text-align: center;
+  font-size: 2.5vmin;
+  color: var(--text-light);
+  margin-top: 5vmin;
+}
+
+.rating-container {
+  border-radius: 0 0 12px 12px;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 768px) {
+  .favorite-movie-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2vmin;
+  }
+
+  .sort-movie-option {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1vmin;
+  }
+
+  .sort-movie-option select {
+    width: 100%;
+    font-size: 2vmin;
+  }
+
+  .movie-list {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .favorite-movie-information {
+    font-size: 2.5vmin;
+  }
+
+  .fontawesome-icons {
+    top: 0.5vmin;
+    right: 0.5vmin;
+  }
+
+  .fontawesome-edit-icon,
+  .fontawesome-delete-icon {
+    font-size: 3vmin;
+  }
 }

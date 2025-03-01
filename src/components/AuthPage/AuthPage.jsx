@@ -1,3 +1,7 @@
+//compenents/authpage/authpage.jsx
+// AuthPage component
+
+
 import React, { useState } from 'react';
 import './AuthPage.css'; 
 import SignUpForm from '../SignUpForm/SignUpForm';

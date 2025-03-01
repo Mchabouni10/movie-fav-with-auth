@@ -1,4 +1,5 @@
-// users in route 
+//routes/api/users.js
+// Import the express library
 
 const express = require('express');
 const router = express.Router();

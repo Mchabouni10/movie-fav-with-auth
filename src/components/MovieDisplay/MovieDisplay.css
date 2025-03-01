@@ -4,6 +4,7 @@
     align-items: center;
     color: white;
     margin: 0;
+    font-family: Inter;
   }
 
   
@@ -30,6 +31,7 @@
     font-size: 3vmin;
     margin-bottom: 1.5vmin;
     font-weight: bold;
+    font-family: Orbitron;
   }
 
   .image-movie-cover {
@@ -38,8 +40,17 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px white;
   }
+
+  .Details-title {
+    color: var(--text-light);
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800; /* Medium */
+    font-size: 2vmin;
+  }
   
   .movie-details {
     color: var(--button-color);
-    font-size: 2.5vmin;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800; /* Medium */
+    font-size: 2vmin;
   }

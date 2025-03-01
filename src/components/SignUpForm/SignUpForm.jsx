@@ -1,3 +1,6 @@
+//components/signupform/signupform.jsx
+// SignUpForm component
+
 import React, { useState } from "react";
 import { signUp } from "../../utilities/users-service";
 import { Link } from 'react-router-dom';
@@ -44,6 +47,7 @@ const SignUpForm = ({ setUser, toggleForm }) => {
             value={formData.name}
             onChange={handleChange}
             required
+            placeholder="Enter your name"
           />
           <label>Email</label>
           <input
@@ -52,6 +56,7 @@ const SignUpForm = ({ setUser, toggleForm }) => {
             value={formData.email}
             onChange={handleChange}
             required
+            placeholder="Enter your email"
           />
           <label>Password</label>
           <input
@@ -60,14 +65,16 @@ const SignUpForm = ({ setUser, toggleForm }) => {
             value={formData.password}
             onChange={handleChange}
             required
+            placeholder="Enter your password"
           />
-          <label>Confirm</label>
+          <label>Confirm Password</label>
           <input
             type="password"
             name="confirm"
             value={formData.confirm}
             onChange={handleChange}
             required
+            placeholder="Confirm your password"
           />
           <button className='Login-Out-Button' type="submit" disabled={disable}>
             SIGN UP
