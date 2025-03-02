@@ -13,27 +13,27 @@ export async function updateUserProfile(formData, userId) {
     const response = await fetch(`/api/users/update-profile/${userId}`, {
       method: 'PUT',
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`, // ✅ Authorization is set here, without Content-Type
       },
-      body: formData,
+      body: formData, // ✅ Let the browser set Content-Type automatically for FormData
     });
 
     if (!response.ok) {
+      // ✅ Check if the response contains JSON before parsing
       const contentType = response.headers.get('content-type');
       if (contentType && contentType.includes('application/json')) {
         const errorData = await response.json();
-        throw new Error(`Failed to update user profile: ${errorData.error}`);
+        throw new Error(errorData.error || 'Failed to update user profile.');
       } else {
         console.error('Invalid content type in response. Expected JSON.');
-        throw new Error('Failed to update user profile');
+        throw new Error('Failed to update user profile. Please try again later.');
       }
     }
 
-    const updatedUser = await response.json();
-    return updatedUser;
+    return await response.json(); // ✅ Return updated user object
   } catch (error) {
     console.error('Error in updateUserProfile:', error);
-    throw error;
+    throw new Error('An error occurred while updating the profile. Please try again.');
   }
 }
 

@@ -1,19 +1,18 @@
+//UpdateProfile
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Select from "react-select";
-import { getCurrentUser } from "../../utilities/users-service"; // Import getCurrentUser
-import { updateUserProfile } from "../../utilities/updateUser-service"; // Import updateUserProfile
+import { getCurrentUser, updateUserProfile } from "../../utilities/users-service";
 import "./UpdateProfileForm.css";
 
 const countries = [
   { value: "USA", label: "United States" },
   { value: "CA", label: "Canada" },
-  // Add more countries as needed
 ];
 
 const UpdateProfileForm = ({ onUpdate }) => {
   const { userId } = useParams();
-
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,23 +20,35 @@ const UpdateProfileForm = ({ onUpdate }) => {
     country: "",
     profilePicture: null,
   });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
-    // Fetch the current user data and populate the form
     const fetchUserData = async () => {
       try {
-        const user = await getCurrentUser(); // Fetch current user data
-        if (user) {
-          setFormData({
-            name: user.name || "",
-            email: user.email || "",
-            birthdate: user.birthdate || "",
-            country: user.country || "",
-            profilePicture: user.profilePicture || null,
-          });
+        setLoading(true); // Start loading
+        const user = await getCurrentUser();
+        console.log("Fetched User Data:", user); // ADD THIS
+        
+        if (!user || user._id !== userId) {
+          setError("User not found or unauthorized to edit this profile.");
+          setLoading(false);
+          return;
         }
+
+        setFormData({
+          name: user.name || "",
+          email: user.email || "",
+          birthdate: user.birthdate || "",
+          country: user.country || "",
+          profilePicture: user.profilePicture || null,
+        });
+
       } catch (error) {
         console.error("Error fetching user data:", error);
+        setError("Failed to fetch user data. Please try again.");
+      } finally {
+        setLoading(false); // Stop loading
       }
     };
 
@@ -45,36 +56,24 @@ const UpdateProfileForm = ({ onUpdate }) => {
   }, [userId]);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
-
     if (!selectedFile.type.startsWith("image/")) {
-      console.error("Invalid file type: Only images allowed.");
+      setError("Invalid file type: Only images allowed.");
       return;
     }
-
-    setFormData({
-      ...formData,
-      profilePicture: selectedFile,
-    });
+    setFormData({ ...formData, profilePicture: selectedFile });
   };
 
   const handleCountryChange = (selectedOption) => {
-    setFormData({
-      ...formData,
-      country: selectedOption.value,
-    });
+    setFormData({ ...formData, country: selectedOption.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const formDataToSend = new FormData();
       formDataToSend.append("name", formData.name);
@@ -86,69 +85,57 @@ const UpdateProfileForm = ({ onUpdate }) => {
       }
 
       const updatedUser = await updateUserProfile(formDataToSend, userId);
-
       if (onUpdate) {
-        onUpdate(updatedUser); // Notify parent component of the update
+        onUpdate(updatedUser);
       }
+      navigate("/profile");
     } catch (error) {
-      console.error("Error updating user profile:", error);
+      setError("Error updating profile. Please try again.");
+      console.error("Error updating profile:", error);
     }
   };
 
+  if (loading) {
+    return <p>Loading user data...</p>;
+  }
+
+  if (error) {
+    return <p className="error-message">{error}</p>;
+  }
+
   return (
-    <form className="container" onSubmit={handleSubmit}>
-      <label>
-        Name:
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
+    <div className="update-profile-container">
+      <h2>Update Your Profile</h2>
+      <form onSubmit={handleSubmit}>
+        <label>Name:</label>
+        <input type="text" name="name" value={formData.name} onChange={handleChange} />
+        
+        <label>Email:</label>
+        <input type="email" name="email" value={formData.email} onChange={handleChange} />
+        
+        <label>Birthdate:</label>
+        <input type="date" name="birthdate" value={formData.birthdate} onChange={handleChange} />
+        
+        <label>Country:</label>
+        <Select 
+          options={countries} 
+          value={countries.find(c => c.value === formData.country)} 
+          onChange={handleCountryChange} 
         />
-      </label>
-      <label>
-        Email:
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Birthdate:
-        <input
-          type="date"
-          name="birthdate"
-          value={formData.birthdate}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Country:
-        <Select
-          options={countries}
-          value={countries.find((c) => c.value === formData.country)}
-          onChange={handleCountryChange}
-        />
-      </label>
-      <label>
-        Profile Picture:
-        <input
-          type="file"
-          name="profilePicture"
-          accept="image/*"
-          onChange={handleFileChange}
-        />
-      </label>
-      <button className="update-profile-button" type="submit">
-        Update Profile
-      </button>
-    </form>
+        
+        <label>Profile Picture:</label>
+        <input type="file" name="profilePicture" accept="image/*" onChange={handleFileChange} />
+        
+        {error && <p className="error-message">{error}</p>}
+        <button type="submit">Update Profile</button>
+      </form>
+    </div>
   );
 };
 
 export default UpdateProfileForm;
+
+
 
 
 

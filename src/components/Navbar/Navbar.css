@@ -7,7 +7,8 @@
   font-family: 'Orbitron', sans-serif;
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 10;
+  width: 100%; /* Ensure the navbar spans the full width */
 }
 
 .navbar-container {
@@ -16,7 +17,7 @@
   align-items: center;
   padding: 2vmin 5vmin;
   max-width: 1200px;
-  margin: 0 2vmin;
+  margin: 0 auto; /* Center the navbar container */
 }
 
 .navbar-links {

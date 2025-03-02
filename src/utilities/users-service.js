@@ -1,8 +1,15 @@
-const sendRequest = async (url, method = 'GET', payload = null) => {
+//utilities/users-service
+
+const sendRequest = async (url, method = 'GET', payload = null, isFormData = false) => {
   const options = { method };
   if (payload) {
-    options.headers = { 'Content-Type': 'application/json' };
-    options.body = JSON.stringify(payload);
+    options.headers = options.headers || {};
+    if (!isFormData) {
+      options.headers['Content-Type'] = 'application/json';
+      options.body = JSON.stringify(payload);
+    } else {
+      options.body = payload; // `FormData` should not have 'Content-Type'
+    }
   }
   const res = await fetch(url, options);
   if (res.ok) return res.json();
@@ -80,3 +87,58 @@ export async function getCurrentUser() {
     throw error;
   }
 }
+
+// ✅ **NEW: Update User Profile**
+export async function updateUserProfile(formData, userId) {
+  const token = getToken();
+  if (!token) {
+    throw new Error("No token found. Please log in.");
+  }
+
+  try {
+    const response = await fetch(`/api/users/update-profile/${userId}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData, // Must be `FormData` to handle file uploads
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update profile.");
+    }
+
+    return await response.json(); // Return updated user data
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    throw error;
+  }
+}
+
+// ✅ **Delete User Profile**
+export async function deleteUserProfile() {
+  const token = getToken();
+  if (!token) {
+    throw new Error("No token found. Please log in.");
+  }
+
+  try {
+    const response = await fetch("/api/users/profile", {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete profile.");
+    }
+
+    localStorage.removeItem("token"); // Clear the token after deletion
+    return true; // Indicate successful deletion
+  } catch (error) {
+    console.error("Error deleting profile:", error);
+    throw error;
+  }
+}
+

@@ -1,49 +1,48 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const User = require('../../models/user');
+//controllers/api/users
+const User = require("../../models/user");
 
-module.exports = {
-  create,
-  login,
-  getUserProfile,
-};
-
-async function create(req, res) {
-  try {
-    const user = await User.create(req.body);
-    const token = createJWT(user);
-    res.status(200).json(token);
-  } catch (e) {
-    res.status(400).json({ msg: e.message });
-  }
-}
-
-async function login(req, res) {
-  try {
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) throw new Error();
-    const match = await bcrypt.compare(req.body.password, user.password);
-    if (!match) throw new Error();
-    res.status(200).json(createJWT(user));
-  } catch (e) {
-    res.status(400).json({ msg: e.message, reason: 'Bad Credentials' });
-  }
-}
-
+// Fetch the current user's profile
 async function getUserProfile(req, res) {
   try {
-    const user = req.user;
-    res.status(200).json(user);
-  } catch (e) {
-    res.status(500).json({ msg: e.message, reason: 'Internal Server Error' });
+    // Ensure req.user exists before proceeding
+    if (!req.user || !req.user._id) {
+      return res.status(401).json({ error: "Unauthorized access" });
+    }
+
+    const user = await User.findById(req.user._id).select("-password"); // Exclude password
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json({ message: "User profile retrieved successfully", user });
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    res.status(500).json({ error: "Failed to retrieve user profile", details: error.message });
   }
 }
 
-function createJWT(user) {
-  return jwt.sign(
-    { user },
-    process.env.SECRET,
-    { expiresIn: '24h' }
-  );
+// Delete the current user's profile
+async function deleteProfile(req, res) {
+  try {
+    // Ensure req.user exists before proceeding
+    if (!req.user || !req.user._id) {
+      return res.status(401).json({ error: "Unauthorized access" });
+    }
+
+    const deletedUser = await User.findByIdAndDelete(req.user._id);
+    if (!deletedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json({ message: "User profile deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting user profile:", error);
+    res.status(500).json({ error: "Failed to delete user profile", details: error.message });
+  }
 }
+
+module.exports = {
+  getUserProfile,
+  deleteProfile,
+};
 

@@ -22,7 +22,7 @@ const LoginForm = ({ setUser, toggleForm }) => {
       ...credentials,
       [evt.target.name]: evt.target.value,
     });
-    setError("");
+    setError(""); // Clear error on input change
   };
 
   const handleSubmit = async (evt) => {
@@ -31,31 +31,38 @@ const LoginForm = ({ setUser, toggleForm }) => {
       const user = await login(credentials);
       setUser(user);
 
-      // Redirect to the original page or home if the state is not set
-      navigate((location.state && location.state.from) || '/');
+      // Redirect to the originally intended page or default to profile/home
+      navigate(location.state?.from || '/profile');
 
-    } catch {
-      setError("Login Failed - Try Again");
+    } catch (err) {
+      setError("Login Failed - Please check your email or password.");
+      console.error("Login error:", err);
     }
   };
 
   return (
-    <div>
+    <div className="login-form-container">
       <div className="form-container">
         <form autoComplete="off" onSubmit={handleSubmit}>
           <div style={{ textAlign: 'center' }}>
             <FontAwesomeIcon icon={faUser} size="4x" style={{ marginBottom: '10px', color: 'var(--button-color)' }} />
           </div>
-          <label>Email<FontAwesomeIcon icon={faEnvelope} size="1x" style={{marginLeft:'6px', color: 'var(--button-color)' }} /></label>
+          <label>
+            Email
+            <FontAwesomeIcon icon={faEnvelope} size="1x" style={{ marginLeft: '6px', color: 'var(--button-color)' }} />
+          </label>
           <input
-            type="text"
+            type="email"
             name="email"
             value={credentials.email}
             onChange={handleChange}
             placeholder="Enter your email" 
             required
           />
-          <label>Password<FontAwesomeIcon icon={faLock} size="1x" style={{marginLeft:'6px', color: 'var(--button-color)' }} /></label>
+          <label>
+            Password
+            <FontAwesomeIcon icon={faLock} size="1x" style={{ marginLeft: '6px', color: 'var(--button-color)' }} />
+          </label>
           <div style={{ position: 'relative' }}>
             <input
               type="password"
@@ -71,10 +78,11 @@ const LoginForm = ({ setUser, toggleForm }) => {
             Don't have an account? <Link to="#" onClick={toggleForm}>Sign Up</Link>
           </p>
         </form>
-        <p className="error-message">&nbsp;{error}</p>
+        {error && <p className="error-message">{error}</p>}
       </div>
     </div>
   );
 };
 
 export default LoginForm;
+

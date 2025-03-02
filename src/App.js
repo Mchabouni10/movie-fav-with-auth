@@ -9,6 +9,7 @@ import DeleteMovie from "./components/DeleteMovie/DeleteMovie";
 import EditMovie from "./components/EditMovie/EditMovie";
 import UserProfile from "./components/UserProfile/UserProfile";
 import UpdateProfileForm from "./components/UpdateProfileForm/UpdateProfileForm";
+import CompleteProfileForm from "./components/CompleteProfileForm/CompleteProfileForm"; // Import Complete Profile component
 import { ThemeProvider } from "../src/components/ThemeContext/ThemeContext";
 import "./App.css";
 
@@ -29,49 +30,38 @@ function App() {
   return (
     <ThemeProvider>
       <div className="App">
-        <>
-          <Navbar user={user} setUser={setUser} />
-          <Routes>
-            {/* Home page accessible without authentication */}
-            <Route path="/" element={<HomePage />} />
+        <Navbar user={user} setUser={setUser} />
+        <Routes>
+          {/* Home page accessible without authentication */}
+          <Route path="/" element={<HomePage />} />
 
-            {/* Favorites and Profile pages require authentication */}
-            <Route
-              path="/favorites"
-              element={requireAuth(<FavoritePage user={user} setUser={setUser} />)}
-            />
+          {/* Favorites and Profile pages require authentication */}
+          <Route
+            path="/favorites"
+            element={requireAuth(<FavoritePage user={user} setUser={setUser} />)}
+          />
+          <Route path="/favorites/:id/delete" element={requireAuth(<DeleteMovie />)} />
+          <Route path="/favorites/:id/edit" element={requireAuth(<EditMovie />)} />
 
-            <Route
-              path="/favorites/:id/delete"
-              element={requireAuth(<DeleteMovie />)}
-            />
-            <Route
-              path="/favorites/:id/edit"
-              element={requireAuth(<EditMovie />)}
-            />
+          {/* User Profile, Edit Profile, and Complete Profile routes */}
+          <Route path="/profile" element={requireAuth(<UserProfile user={user} />)} />
+          <Route
+            path="/edit-profile/:userId"
+            element={requireAuth(<UpdateProfileForm onUpdate={handleProfileUpdate} />)}
+          />
+          <Route
+            path="/complete-profile"
+            element={requireAuth(<CompleteProfileForm onUpdate={handleProfileUpdate} />)}
+          />
 
-            {/* User Profile and Update Profile routes */}
-            <Route
-              path="/profile"
-              element={requireAuth(<UserProfile user={user} />)}
-            />
-            <Route
-              path="/update-profile/:userId"
-              element={requireAuth(
-                <UpdateProfileForm onUpdate={handleProfileUpdate} />
-              )}
-            />
-
-            {/* AuthPage for login and signup */}
-            <Route
-              path="/login"
-              element={<AuthPage user={user} setUser={setUser} />}
-            />
-          </Routes>
-        </>
+          {/* AuthPage for login and signup */}
+          <Route path="/login" element={<AuthPage user={user} setUser={setUser} />} />
+        </Routes>
       </div>
     </ThemeProvider>
   );
 }
 
 export default App;
+
+

@@ -21,23 +21,32 @@ const SignUpForm = ({ setUser, toggleForm }) => {
       ...formData,
       [evt.target.name]: evt.target.value,
     });
-    setError("");
+    setError(""); // Clear error when user starts typing
   };
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
+    if (formData.password !== formData.confirm) {
+      setError("Passwords do not match");
+      return;
+    }
+
     try {
-      const user = await signUp(formData);
+      const user = await signUp({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+
       setUser(user);
-    } catch {
-      setError("Sign Up Failed - Try Again");
+    } catch (err) {
+      setError("Sign Up Failed - Please try again.");
+      console.error("Sign Up Error:", err);
     }
   };
 
-  const disable = formData.password !== formData.confirm;
-
   return (
-    <div>
+    <div className="signup-form-container">
       <div className="form-signup-container">
         <form autoComplete="off" onSubmit={handleSubmit}>
           <label>Name</label>
@@ -49,6 +58,7 @@ const SignUpForm = ({ setUser, toggleForm }) => {
             required
             placeholder="Enter your name"
           />
+
           <label>Email</label>
           <input
             type="email"
@@ -58,6 +68,7 @@ const SignUpForm = ({ setUser, toggleForm }) => {
             required
             placeholder="Enter your email"
           />
+
           <label>Password</label>
           <input
             type="password"
@@ -67,6 +78,7 @@ const SignUpForm = ({ setUser, toggleForm }) => {
             required
             placeholder="Enter your password"
           />
+
           <label>Confirm Password</label>
           <input
             type="password"
@@ -76,15 +88,17 @@ const SignUpForm = ({ setUser, toggleForm }) => {
             required
             placeholder="Confirm your password"
           />
-          <button className='Login-Out-Button' type="submit" disabled={disable}>
+
+          <button className='Login-Out-Button' type="submit" disabled={formData.password !== formData.confirm}>
             SIGN UP
           </button>
+
           <p>
             Already have an account? <Link to="#" onClick={toggleForm}>Log In</Link>
           </p>
         </form>
       </div>
-      <p className="error-message">&nbsp;{error}</p>
+      {error && <p className="error-message">{error}</p>}
     </div>
   );
 };

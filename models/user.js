@@ -1,56 +1,56 @@
 //models/user.js
 // Define the user schema
-
-
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-// Add the bcrypt library
 const bcrypt = require("bcrypt");
-const SALT_ROUNDS = 6; // 6 is a reasonable value
 
-const userSchema = new Schema(
+const SALT_ROUNDS = 10; // Increased for better security
+
+const userSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
+    name: { type: String, required: true, trim: true },
     email: {
       type: String,
       unique: true,
       trim: true,
       lowercase: true,
       required: true,
+      match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // Ensures a valid email format
     },
     password: {
       type: String,
-      trim: true,
-      minLength: 3,
       required: true,
+      trim: true,
     },
-    // Add new fields here:
-    country: { type: String },
+    phoneNumber: {
+      type: String,
+      trim: true,
+      match: /^\+?[1-9]\d{1,14}$/, // Ensures a valid phone number format (E.164 standard)
+    },
+    country: { type: String, trim: true },
     birthdate: { type: Date },
-    profilePicture: {
-      type: Buffer, // Stores the binary image data
-      contentType: { type: String }, // Optional: Store the image content type
-    },
+    profilePicture: { type: String },
+    isProfileComplete: { type: Boolean, default: false },
   },
-  
   {
     timestamps: true,
-    // Even though it's hashed - don't serialize the password
     toJSON: {
       transform: function (doc, ret) {
-        delete ret.password;
+        delete ret.password; // Exclude password from the response
         return ret;
       },
     },
   }
 );
 
+// Hash the password before saving the user
 userSchema.pre("save", async function (next) {
-  // 'this' is the user doc
   if (!this.isModified("password")) return next();
-  // update the password with the computed hash
-  this.password = await bcrypt.hash(this.password, SALT_ROUNDS);
-  return next();
+  try {
+    this.password = await bcrypt.hash(this.password, SALT_ROUNDS);
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = mongoose.model("User", userSchema);
