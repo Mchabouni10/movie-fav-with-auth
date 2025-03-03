@@ -1,28 +1,16 @@
 .user-logout {
-    font-size: 2vmin;
-    font-weight: bold;
-    color: var(--text-light);
-    text-align: center;
-    margin-top: 0;
-    }
-    
-    .user-logout-icon {
-      font-size: 3vmin;
-      margin-left: 2.5vmin;
-      cursor: pointer;
-      color: var(--button-color);
-    }
+  display: flex;
+  align-items: center;
+}
 
-    .signin-button{
-      color: white;
-      font-size: 2.4vmin;
-      background-color: transparent;
-      font-weight: bold;
-      margin-top: 0;
-    }
+.user-logout-icon {
+  font-size: 3vmin;
+  color: var(--button-color);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
 
-    .faUser-icon {
-     margin-right: 1vmin;
-    }
-
+.user-logout-icon:hover {
+  color: var(--text-light);
+}
   

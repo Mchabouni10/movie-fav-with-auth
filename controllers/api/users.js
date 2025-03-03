@@ -6,20 +6,18 @@ const jwt = require("jsonwebtoken");
 async function create(req, res) {
   try {
     const { name, email, password } = req.body;
+    if (!name || !email || !password) {
+      return res.status(400).json({ error: "Name, email, and password are required" });
+    }
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ error: "User already exists" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ name, email, password: hashedPassword });
-    await newUser.save();
-
-    // Generate token
-    const token = jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
-    const userWithoutPassword = { ...newUser.toObject(), password: undefined };
-
+    const user = await User.create({ name, email, password });
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+    const userWithoutPassword = { ...user.toObject(), password: undefined };
     res.status(201).json({ message: "User registered successfully", token, user: userWithoutPassword });
   } catch (error) {
     console.error("Error registering user:", error);
@@ -27,12 +25,10 @@ async function create(req, res) {
   }
 }
 
-// Login user (unchanged, included for reference)
 async function login(req, res) {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
-
     if (!user) return res.status(400).json({ error: "Invalid credentials" });
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -47,15 +43,11 @@ async function login(req, res) {
   }
 }
 
-// Get user profile (unchanged from previous fix)
 async function getUserProfile(req, res) {
   try {
-    console.log("getUserProfile invoked, req.user:", req.user);
-    if (!req.user || !req.user._id) {
-      return res.status(401).json({ error: "Unauthorized: No user data available" });
-    }
+    const userId = req.user?._id;
+    if (!userId) return res.status(401).json({ error: "Unauthorized: No user data" });
 
-    const userId = req.user._id;
     const user = await User.findById(userId).select("-password");
     if (!user) return res.status(404).json({ error: "User not found" });
 
@@ -66,15 +58,11 @@ async function getUserProfile(req, res) {
   }
 }
 
-// Delete user profile (unchanged from previous fix)
 async function deleteProfile(req, res) {
   try {
-    console.log("deleteProfile invoked, req.user:", req.user);
-    if (!req.user || !req.user._id) {
-      return res.status(401).json({ error: "Unauthorized: No user data available" });
-    }
+    const userId = req.user?._id;
+    if (!userId) return res.status(401).json({ error: "Unauthorized: No user data" });
 
-    const userId = req.user._id;
     const deletedUser = await User.findByIdAndDelete(userId);
     if (!deletedUser) return res.status(404).json({ error: "User not found" });
 

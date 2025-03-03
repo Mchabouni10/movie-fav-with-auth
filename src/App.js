@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { getUser } from "./utilities/users-service";
+import { getUser, getCurrentUser } from "./utilities/users-service"; // Added getCurrentUser
 import AuthPage from "./components/AuthPage/AuthPage";
 import Navbar from "./components/Navbar/Navbar";
 import HomePage from "./pages/Homepage/HomePage";
@@ -17,10 +17,18 @@ function App() {
   const [user, setUser] = React.useState(getUser());
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const currentUser = getUser();
-    console.log("App mounted, user:", currentUser, "token:", token);
-    setUser(currentUser); // Ensure state reflects current user
+    const fetchUserOnMount = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const fetchedUser = await getCurrentUser();
+        console.log("App mounted, fetched user:", fetchedUser);
+        setUser(fetchedUser);
+      } else {
+        console.log("App mounted, no token found");
+        setUser(null);
+      }
+    };
+    fetchUserOnMount();
   }, []);
 
   const requireAuth = (element) => {
@@ -29,7 +37,8 @@ function App() {
   };
 
   const handleProfileUpdate = (updatedUser) => {
-    setUser(updatedUser);
+    console.log("Profile updated, new user:", updatedUser);
+    setUser(updatedUser); // Sync state with updated user
     alert("Profile updated successfully!");
   };
 
@@ -42,7 +51,7 @@ function App() {
           <Route path="/favorites" element={requireAuth(<FavoritePage />)} />
           <Route path="/favorites/:id/delete" element={requireAuth(<DeleteMovie />)} />
           <Route path="/favorites/:id/edit" element={requireAuth(<EditMovie />)} />
-          <Route path="/profile" element={requireAuth(<UserProfile user={user} />)} />
+          <Route path="/profile" element={requireAuth(<UserProfile />)} />
           <Route
             path="/edit-profile/:userId"
             element={requireAuth(<UpdateProfileForm onUpdate={handleProfileUpdate} />)}

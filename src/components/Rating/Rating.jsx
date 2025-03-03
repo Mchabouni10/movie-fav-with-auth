@@ -13,13 +13,13 @@ const Rating = ({ initialRating, onChange }) => {
   };
 
   return (
-    <div className='rating-container'>
+    <div className="rating-container">
       {[1, 2, 3, 4, 5].map((star) => (
         <FontAwesomeIcon
           key={star}
           icon={rating >= star ? solidStar : regularStar}
           onClick={() => handleStarClick(star)}
-          className='stars-icons'
+          className="star-icon"
         />
       ))}
     </div>

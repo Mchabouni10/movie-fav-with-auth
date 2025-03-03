@@ -10,10 +10,11 @@ function Navbar({ user, setUser }) {
   const location = useLocation();
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
 
+  console.log("Navbar user:", user);
+
   return (
     <nav className={`navbar-class ${isDarkMode ? "dark-mode" : "light-mode"}`}>
       <div className="navbar-container">
-        {/* Left Section: Navigation Links */}
         <div className="leftSection">
           <Link
             to="/"
@@ -39,9 +40,7 @@ function Navbar({ user, setUser }) {
           )}
         </div>
 
-        {/* Right Section: Theme Toggle and User Info */}
         <div className="rightSection">
-          {/* Theme Toggle */}
           <div className="theme-switch">
             <label className="theme-toggle-label">
               <input
@@ -61,11 +60,10 @@ function Navbar({ user, setUser }) {
             </label>
           </div>
 
-          {/* User Info and Login/Logout */}
           {user ? (
             <div className="user-info">
               <span className="user-name">
-                {user.name || "User"} {/* Display user's name or fallback */}
+                {user.name || (user.email ? user.email.split("@")[0] : "User")}
               </span>
               <UserLogOut user={user} setUser={setUser} />
             </div>

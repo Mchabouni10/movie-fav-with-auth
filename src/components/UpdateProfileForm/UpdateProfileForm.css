@@ -1,29 +1,172 @@
-.container {
+/* Import Futuristic Font */
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
+
+.update-profile-container {
   max-width: 600px;
-  margin: 0 auto;
+  margin: 40px auto;
+  padding: 20px;
+  background: linear-gradient(135deg, var(--background-dark), var(--background-light));
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  font-family: "Orbitron", sans-serif;
+  color: var(--text-light);
 }
 
-  form {
+.form-heading {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-light);
+  text-align: center;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.update-profile-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
- label {
-  font-weight: bold;
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-  input {
-  padding: 8px;
-  font-size: 14px;
-  color: black;
+.form-group label {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--button-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
- button {
+.form-group input {
   padding: 10px;
-  background-color: #4caf50;
-  color: white;
+  font-size: 14px;
+  color: var(--text-light);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--button-color);
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: var(--text-light);
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Green glow in dark mode */
+}
+
+/* Style React-Select */
+.country-select .select__control {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--button-color);
+  border-radius: 5px;
+  color: var(--text-light);
+  font-family: "Orbitron", sans-serif;
+}
+
+.country-select .select__control--is-focused {
+  border-color: var(--text-light);
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.country-select .select__menu {
+  background: var(--background-dark);
+  color: var(--text-light);
+  border: 1px solid var(--button-color);
+}
+
+.country-select .select__option {
+  background: var(--background-dark);
+  color: var(--text-light);
+}
+
+.country-select .select__option--is-focused {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.country-select .select__single-value,
+.country-select .select__input {
+  color: var(--text-light);
+}
+
+.form-group input[type="file"] {
+  padding: 5px;
+  background: none;
   border: none;
+}
+
+.submit-button {
+  padding: 10px 20px;
+  background-color: #4caf50; /* Green */
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.5);
+}
+
+.error-message,
+.loading-message {
+  font-size: 16px;
+  text-align: center;
+  padding: 10px;
+  color: var(--text-light);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .update-profile-container {
+    margin: 20px;
+    padding: 15px;
+  }
+
+  .form-heading {
+    font-size: 24px;
+  }
+
+  .form-group label {
+    font-size: 14px;
+  }
+
+  .form-group input {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .submit-button {
+    font-size: 12px;
+    padding: 8px;
+  }
+}
+
+/* Dark Mode Styles (consistent with Navbar and UserProfile) */
+.dark-mode {
+  --background-dark: #1a1a1a;
+  --background-light: #2a2a2a;
+  --button-color: #4caf50;
+  --text-light: #ffffff;
+}
+
+/* Light Mode Styles (consistent with Navbar and UserProfile) */
+.light-mode {
+  --background-dark: #f0f0f0;
+  --background-light: #ffffff;
+  --button-color: #007bff;
+  --text-light: #000000;
 }
   

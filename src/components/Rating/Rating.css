@@ -1,14 +1,55 @@
+/* Import Futuristic Font */
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
+
 .rating-container {
-    display: inline-block;
-    text-align: center;
-    width: 100%; 
-    margin-bottom: .5vmin;
+  display: flex;
+  justify-content: center; /* Center stars horizontally */
+  align-items: center;
+  width: 100%;
+  padding: 10px 0; /* Consistent with form padding */
+  font-family: "Orbitron", sans-serif;
+  background: linear-gradient(135deg, var(--background-dark), var(--background-light)); /* Match form gradient */
+  border-radius: 5px;
+}
+
+.star-icon {
+  cursor: pointer;
+  font-size: 18px; /* Slightly larger for visibility, matches button text */
+  color: var(--button-color); /* Matches theme: #4caf50 dark, #007bff light */
+  margin: 0 5px; /* Consistent spacing */
+  transition: all 0.3s ease; /* Smooth hover and click effects */
+}
+
+.star-icon:hover {
+  transform: scale(1.2); /* Slight grow effect on hover */
+  color: var(--text-light); /* White in dark mode, black in light mode */
+  filter: drop-shadow(0 0 5px rgba(76, 175, 80, 0.5)); /* Glow effect */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .rating-container {
+    padding: 8px 0;
   }
-  
-  .stars-icons {
-    cursor: pointer;
-    color: #fdd835;
-    font-size: 2.5vmin;
-    margin-left: .5vmin;
-    margin-right: .5vmin;
+
+  .star-icon {
+    font-size: 14px; /* Matches mobile input size */
+    margin: 0 3px; /* Tighter spacing */
   }
+}
+
+/* Dark Mode Styles */
+.dark-mode {
+  --background-dark: #1a1a1a;
+  --background-light: #2a2a2a;
+  --button-color: #4caf50;
+  --text-light: #ffffff;
+}
+
+/* Light Mode Styles */
+.light-mode {
+  --background-dark: #f0f0f0;
+  --background-light: #ffffff;
+  --button-color: #007bff;
+  --text-light: #000000;
+}

@@ -64,7 +64,7 @@ export function getToken() {
   }
 }
 
-// Get User
+// Get User (token payload, fallback only)
 export function getUser() {
   const token = getToken();
   if (!token) return null;
@@ -72,7 +72,7 @@ export function getUser() {
     const base64Url = token.split(".")[1];
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
     const payload = JSON.parse(atob(base64));
-    return payload.user || payload; // Adjust based on token payload structure
+    return payload.user || payload;
   } catch (error) {
     console.error("Error parsing user from token:", error);
     return null;
@@ -97,7 +97,7 @@ export async function checkToken() {
   }
 }
 
-// Get Current User
+// Get Current User (full data from server)
 export async function getCurrentUser() {
   const token = getToken();
   if (!token) return null;
@@ -112,7 +112,9 @@ export async function getCurrentUser() {
       console.error(`Failed to fetch user: ${response.status}`);
       return null;
     }
-    return await response.json();
+    const user = await response.json();
+    console.log("Fetched current user:", user);
+    return user;
   } catch (error) {
     console.error("Error fetching user:", error);
     return null;
@@ -122,20 +124,43 @@ export async function getCurrentUser() {
 // Update User Profile
 export async function updateUserProfile(formData) {
   const token = getToken();
-  if (!token) throw new Error("No token found");
-  const res = await fetch("/api/users/update-profile/:id", {
+  const user = getUser();
+  if (!token || !user) throw new Error("No token or user found");
+
+  const url = `/api/users/update-profile/${user._id}`;
+  console.log("Updating profile for user:", user._id, "URL:", url);
+
+  // Convert FormData to JSON with base64 image
+  const data = {};
+  for (const [key, value] of formData.entries()) {
+    if (key === "profilePicture" && value instanceof File) {
+      const reader = new FileReader();
+      const base64Promise = new Promise((resolve) => {
+        reader.onload = () => resolve(reader.result);
+        reader.readAsDataURL(value);
+      });
+      data[key] = await base64Promise;
+    } else {
+      data[key] = value;
+    }
+  }
+
+  const res = await fetch(url, {
     method: "PUT",
     headers: {
       "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json",
     },
-    body: formData,
+    body: JSON.stringify(data),
   });
+
   if (res.ok) {
     const data = await res.json();
     if (data.token) localStorage.setItem("token", data.token);
-    return data;
+    return data.user || data;
   }
-  throw new Error("Profile update failed");
+  const errorText = await res.text();
+  throw new Error(`Profile update failed: ${res.status} - ${errorText}`);
 }
 
 // Delete User Profile

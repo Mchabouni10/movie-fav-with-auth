@@ -1,32 +1,133 @@
-.edit-container {
-    max-width: 600px;
-    margin: 0 auto;
-    overflow-y: auto;
-    height: 500px;
+/* Import Futuristic Font */
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
+
+.edit-movie-container {
+  max-width: 600px; /* Matches UpdateProfileForm and CompleteProfileForm */
+  margin: 40px auto;
+  padding: 20px;
+  background: linear-gradient(135deg, var(--background-dark), var(--background-light));
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  font-family: "Orbitron", sans-serif;
+  color: var(--text-light);
+  overflow-y: auto; /* Kept from original for scrolling if needed */
+  max-height: 500px; /* Kept from original */
+}
+
+/* Form heading */
+.form-heading {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-light);
+  text-align: center;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Form styling */
+.edit-movie-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Matches form-group spacing */
+}
+
+/* Form group for consistent label-input pairing */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px; /* Matches UpdateProfileForm */
+}
+
+/* Form labels */
+.form-group label {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--button-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Form inputs */
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  color: var(--text-light);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--button-color);
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: var(--text-light);
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Green glow in dark mode */
+}
+
+/* Submit button */
+.submit-button {
+  width: 100%;
+  padding: 10px 20px;
+  background-color: var(--button-color);
+  color: var(--text-light);
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #45a049; /* Dark mode hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .edit-movie-container {
+    margin: 20px;
+    padding: 15px;
   }
-  
-.edit-form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+
+  .form-heading {
+    font-size: 24px;
   }
-  
-.edit-label {
-    font-weight: bold;
+
+  .form-group label {
+    font-size: 10px;
   }
-  
-  .edit-label input {
-    padding: 8px;
-    font-size: 14px;
-    color: black;
+
+  .form-group input,
+  .submit-button {
+    font-size: 12px;
+    padding: 6px;
   }
-  
-.edit-button {
-    padding: 10px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
+}
+
+/* Dark Mode Styles */
+.dark-mode {
+  --background-dark: #1a1a1a;
+  --background-light: #2a2a2a;
+  --button-color: #4caf50;
+  --text-light: #ffffff;
+}
+
+/* Light Mode Styles */
+.light-mode {
+  --background-dark: #f0f0f0;
+  --background-light: #ffffff;
+  --button-color: #007bff;
+  --text-light: #000000;
+}
+
+/* Light mode button hover */
+.light-mode .submit-button:hover {
+  background-color: #0056b3; /* Blue hover in light mode */
+}
   
  

@@ -20,7 +20,7 @@ const LoginForm = ({ setUser, toggleForm, setLoading }) => {
       ...credentials,
       [evt.target.name]: evt.target.value,
     });
-    setError("");
+    setError(""); // Clear error on input change
   };
 
   const handleSubmit = async (evt) => {
@@ -34,8 +34,12 @@ const LoginForm = ({ setUser, toggleForm, setLoading }) => {
       setUser(user);
       navigate(location.state?.from || "/profile");
     } catch (err) {
-      setError("Login Failed - Please check your email or password.");
       console.error("Login error:", err);
+      // Parse error message from server response or fallback to generic
+      const errorMessage = err.message.includes("Request failed")
+        ? JSON.parse(err.message.split(" - ")[1])?.error || "Login failed. Please try again."
+        : "Login failed. Please check your email or password.";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -52,39 +56,43 @@ const LoginForm = ({ setUser, toggleForm, setLoading }) => {
               style={{ marginBottom: "10px", color: "var(--button-color)" }}
             />
           </div>
-          <label>
-            Email
-            <FontAwesomeIcon
-              icon={faEnvelope}
-              size="1x"
-              style={{ marginLeft: "6px", color: "var(--button-color)" }}
-            />
-          </label>
-          <input
-            type="email"
-            name="email"
-            value={credentials.email}
-            onChange={handleChange}
-            placeholder="Enter your email"
-            required
-          />
-          <label>
-            Password
-            <FontAwesomeIcon
-              icon={faLock}
-              size="1x"
-              style={{ marginLeft: "6px", color: "var(--button-color)" }}
-            />
-          </label>
-          <div style={{ position: "relative" }}>
+          <div className="form-group">
+            <label>
+              Email
+              <FontAwesomeIcon
+                icon={faEnvelope}
+                size="1x"
+                style={{ marginLeft: "6px", color: "var(--button-color)" }}
+              />
+            </label>
             <input
-              type="password"
-              name="password"
-              value={credentials.password}
+              type="email"
+              name="email"
+              value={credentials.email}
               onChange={handleChange}
-              placeholder="Enter your password"
+              placeholder="Enter your email"
               required
             />
+          </div>
+          <div className="form-group">
+            <label>
+              Password
+              <FontAwesomeIcon
+                icon={faLock}
+                size="1x"
+                style={{ marginLeft: "6px", color: "var(--button-color)" }}
+              />
+            </label>
+            <div style={{ position: "relative" }}>
+              <input
+                type="password"
+                name="password"
+                value={credentials.password}
+                onChange={handleChange}
+                placeholder="Enter your password"
+                required
+              />
+            </div>
           </div>
           <button className="Login-Out-Button" type="submit">
             LOG IN

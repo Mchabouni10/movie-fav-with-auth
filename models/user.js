@@ -3,7 +3,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
-const SALT_ROUNDS = 10; // Increased for better security
+const SALT_ROUNDS = 10;
 
 const userSchema = new mongoose.Schema(
   {
@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
       required: true,
-      match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // Ensures a valid email format
+      match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
     },
     password: {
       type: String,
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
     phoneNumber: {
       type: String,
       trim: true,
-      match: /^\+?[1-9]\d{1,14}$/, // Ensures a valid phone number format (E.164 standard)
+      match: /^\+?\d{1,15}$/, // Relaxed: allows optional +, any digits up to 15
     },
     country: { type: String, trim: true },
     birthdate: { type: Date },
@@ -35,14 +35,13 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
     toJSON: {
       transform: function (doc, ret) {
-        delete ret.password; // Exclude password from the response
+        delete ret.password;
         return ret;
       },
     },
   }
 );
 
-// Hash the password before saving the user
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   try {
