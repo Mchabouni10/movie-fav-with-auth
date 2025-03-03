@@ -14,12 +14,12 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const userProfile = await getCurrentUser(); // ✅ Use getCurrentUser instead of sendRequest
+        const userProfile = await getCurrentUser();
         if (!userProfile) {
-          navigate("/login"); // ✅ Redirect to login if no user is found
-        } else {
-          setUser(userProfile);
+          navigate("/login");
+          return;
         }
+        setUser(userProfile);
       } catch (err) {
         console.error("Error fetching user profile:", err);
         setError("Failed to load user profile. Please try again.");
@@ -31,21 +31,11 @@ const UserProfile = () => {
     fetchUserProfile();
   }, [userId, navigate]);
 
-  const handleUpdateProfile = (updatedUser) => {
-    setUser(updatedUser);
-  };
-
-  const handleLogOut = () => {
-    logOut();
-    setUser(null);
-    navigate("/"); // Redirect to home page after logout
-  };
-
   const handleDeleteProfile = async () => {
     if (window.confirm("Are you sure you want to delete your profile? This action cannot be undone.")) {
       try {
         await deleteUserProfile();
-        navigate("/"); // Redirect to home page after deletion
+        navigate("/");
       } catch (err) {
         console.error("Error deleting profile:", err);
         setError("Failed to delete profile. Please try again.");
@@ -53,12 +43,18 @@ const UserProfile = () => {
     }
   };
 
+  const handleLogOut = () => {
+    logOut();
+    setUser(null);
+    navigate("/");
+  };
+
   if (loading) {
-    return <p className="loading-message">Loading profile...</p>; // ✅ Improved loading message
+    return <p className="loading-message">Loading profile...</p>;
   }
 
   if (error) {
-    return <p className="error-message">{error}</p>; // ✅ Display error if fetching fails
+    return <p className="error-message">{error}</p>;
   }
 
   if (!user) {
@@ -69,7 +65,6 @@ const UserProfile = () => {
     <div className="profile-container">
       <h2 className="profile-heading">User Profile</h2>
 
-      {/* ✅ Display Profile Picture If Available */}
       {user.profilePicture && (
         <img src={user.profilePicture} alt="Profile" className="profile-picture" />
       )}
@@ -84,36 +79,29 @@ const UserProfile = () => {
         <strong>Name:</strong> {user.name}
       </p>
       <p className="profile-info">
-        <strong>Username:</strong> {user.username || "N/A"} {/* ✅ Handle missing username */}
-      </p>
-      <p className="profile-info">
         <strong>Registered On:</strong> {new Date(user.createdAt).toLocaleString()}
       </p>
       <p className="profile-info">
         <strong>Last Updated:</strong> {user.updatedAt ? new Date(user.updatedAt).toLocaleString() : "N/A"}
       </p>
       <p className="profile-info">
-        <strong>Location:</strong> {user.location ? user.location : "N/A"} {/* ✅ Handle missing location */}
+        <strong>Country:</strong> {user.country || "N/A"}
       </p>
 
-      {/* ✅ Show Complete Profile Button If Profile Is Incomplete */}
       {!user.isProfileComplete && (
         <Link to="/complete-profile" className="complete-profile-link">
           Complete Profile
         </Link>
       )}
 
-      {/* ✅ Edit Profile Button */}
       <Link to={`/edit-profile/${user._id}`} className="edit-profile-link">
         Edit Profile
       </Link>
 
-      {/* ✅ Delete Profile Button */}
       <button className="delete-profile-button" onClick={handleDeleteProfile}>
         Delete Profile
       </button>
 
-      {/* ✅ Sign Out Button */}
       <button className="btn-md" onClick={handleLogOut}>
         SIGN OUT
       </button>

@@ -3,23 +3,36 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = function (req, res, next) {
-  // Check for the token being sent in a header or as a query parameter
-  let token = req.get("Authorization") || req.query.token;
-  if (token) {
-    // Remove the 'Bearer ' if it was included in the token header
-    token = token.replace("Bearer ", "");
-    // Check if token is valid and not expired
-    jwt.verify(token, process.env.SECRET, function (err, decoded) {
-      // If valid token, decoded will be the token's entire payload
-      // If invalid token, err will be set
-      req.user = err ? null : decoded.user;
-      // If your app cares... (optional)
-      req.exp = err ? null : new Date(decoded.exp * 1000);
-      return next();
-    });
-  } else {
-    // No token was sent
-    req.user = null;
-    return next();
+  console.log("checkToken middleware invoked"); // Debug log
+
+  // Get the token from the Authorization header
+  const authHeader = req.get("Authorization");
+  if (!authHeader) {
+    console.log("No Authorization header provided");
+    return res.status(401).json({ error: "Unauthorized: No token provided" });
+  }
+
+  // Ensure the header is in "Bearer <token>" format
+  const parts = authHeader.split(" ");
+  if (parts.length !== 2 || parts[0] !== "Bearer") {
+    console.log("Invalid Authorization header format:", authHeader);
+    return res.status(401).json({ error: "Unauthorized: Invalid token format" });
+  }
+
+  const token = parts[1];
+  if (!token) {
+    console.log("No token found after Bearer");
+    return res.status(401).json({ error: "Unauthorized: Token missing" });
+  }
+
+  // Verify the token
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("Token verified, decoded payload:", decoded); // Debug log
+    req.user = decoded; // Attach the entire decoded payload to req.user
+    next();
+  } catch (err) {
+    console.error("Token verification failed:", err.message);
+    return res.status(401).json({ error: "Unauthorized: Invalid or expired token" });
   }
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -8,16 +8,19 @@ import { faFilm } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faFilm);
 
+// Find the root element
+const rootElement = document.getElementById('root');
 
-ReactDOM.render(
+// Use createRoot instead of ReactDOM.render
+const root = createRoot(rootElement);
+
+root.render(
   <React.StrictMode>
     <Router>
-     
-        <App />
-     
+      <App />
     </Router>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
+
 
 

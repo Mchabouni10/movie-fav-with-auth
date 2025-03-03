@@ -11,13 +11,11 @@ const port = process.env.PORT || 3001;
 const app = express();
 
 // ----------------------------------------------Middleware
-
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "build")));
 
 // ----------------------------------------------Routes
-
 // Middleware to verify token and assign user object of payload to req.user.
 const checkToken = require('./config/checkToken');
 

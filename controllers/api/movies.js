@@ -7,7 +7,10 @@ async function index(req, res) {
     if (!userID) {
       return res.status(400).json({ error: 'User ID is required' });
     }
-    const movies = await Movie.find({ userID: userID });
+    if (userID !== req.user._id) {
+      return res.status(403).json({ error: 'Unauthorized: Cannot access another user\'s movies' });
+    }
+    const movies = await Movie.find({ userID });
     res.status(200).json(movies);
   } catch (error) {
     console.error('Error fetching movies:', error);
@@ -22,6 +25,9 @@ async function show(req, res) {
     if (!movie) {
       return res.status(404).json({ error: 'Movie not found' });
     }
+    if (movie.userID.toString() !== req.user._id) {
+      return res.status(403).json({ error: 'Unauthorized: Not your movie' });
+    }
     res.status(200).json(movie);
   } catch (error) {
     console.error('Error fetching movie by ID:', error);
@@ -33,16 +39,20 @@ async function show(req, res) {
 const addMovie = async (req, res) => {
   try {
     const { title, year, boxOffice, poster, imdbID, rated, released, runtime, genre, userID } = req.body;
-
-    // Check if the movie already exists for the user
-    const existingMovie = await Movie.findOne({ imdbID, userID });
-    if (existingMovie) {
-      return res.status(400).json({ error: 'Movie already exists for the current user' });
+    console.log("Adding movie for user:", userID, "Data:", req.body);
+    if (userID !== req.user._id) {
+      return res.status(403).json({ error: 'Unauthorized: Cannot add movie for another user' });
     }
 
-    // Create and save the new movie
+    const existingMovie = await Movie.findOne({ imdbID, userID });
+    if (existingMovie) {
+      console.log("Movie already exists:", imdbID);
+      return res.status(400).json({ error: 'Movie already exists in your favorites' });
+    }
+
     const newMovie = new Movie({ title, year, boxOffice, poster, imdbID, rated, released, runtime, genre, userID });
     const savedMovie = await newMovie.save();
+    console.log("Movie saved:", savedMovie._id);
     res.status(201).json(savedMovie);
   } catch (error) {
     console.error('Error adding movie:', error);
@@ -53,10 +63,14 @@ const addMovie = async (req, res) => {
 // Update a movie by ID
 const updateMovieById = async (req, res) => {
   try {
-    const updatedMovie = await Movie.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!updatedMovie) {
+    const movie = await Movie.findById(req.params.id);
+    if (!movie) {
       return res.status(404).json({ error: 'Movie not found' });
     }
+    if (movie.userID.toString() !== req.user._id) {
+      return res.status(403).json({ error: 'Unauthorized: Not your movie' });
+    }
+    const updatedMovie = await Movie.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(updatedMovie);
   } catch (error) {
     console.error('Error updating movie by ID:', error);
@@ -67,10 +81,14 @@ const updateMovieById = async (req, res) => {
 // Delete a movie by ID
 const deleteMovieById = async (req, res) => {
   try {
-    const deletedMovie = await Movie.findByIdAndDelete(req.params.id);
-    if (!deletedMovie) {
+    const movie = await Movie.findById(req.params.id);
+    if (!movie) {
       return res.status(404).json({ error: 'Movie not found' });
     }
+    if (movie.userID.toString() !== req.user._id) {
+      return res.status(403).json({ error: 'Unauthorized: Not your movie' });
+    }
+    await Movie.findByIdAndDelete(req.params.id);
     res.json({ message: 'Movie deleted successfully' });
   } catch (error) {
     console.error('Error deleting movie by ID:', error);
@@ -84,15 +102,16 @@ const updateMovieRating = async (req, res) => {
     const { rating } = req.body;
     const movieId = req.params.id;
 
-    // Validate rating
     if (rating < 1 || rating > 5) {
-      return res.status(400).json({ error: 'Invalid rating value' });
+      return res.status(400).json({ error: 'Invalid rating value (1-5)' });
     }
 
-    // Find and update the movie
     const movie = await Movie.findById(movieId);
     if (!movie) {
       return res.status(404).json({ error: 'Movie not found' });
+    }
+    if (movie.userID.toString() !== req.user._id) {
+      return res.status(403).json({ error: 'Unauthorized: Not your movie' });
     }
 
     movie.rating = rating;

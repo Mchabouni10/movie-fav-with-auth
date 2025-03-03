@@ -16,18 +16,18 @@ if (!fs.existsSync(uploadDir)) {
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: (req, file, cb) => {
     cb(null, uploadDir);
   },
-  filename: function (req, file, cb) {
+  filename: (req, file, cb) => {
     cb(null, `${Date.now()}${path.extname(file.originalname)}`);
   },
 });
 
 const upload = multer({
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // Limit file size to 5MB
-  fileFilter: function (req, file, cb) {
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  fileFilter: (req, file, cb) => {
     const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
     if (!allowedTypes.includes(file.mimetype)) {
       return cb(new Error("Only JPEG, PNG, and GIF files are allowed"), false);
@@ -36,24 +36,20 @@ const upload = multer({
   },
 });
 
-// POST /api/users/register (Register a new user)
-router.post("/", usersCtrl.create);
+// Public Routes
+router.post("/", usersCtrl.create); // POST /api/users (Register a new user)
+router.post("/login", usersCtrl.login); // POST /api/users/login (Authenticate user)
 
-// POST /api/users/login (Authenticate user)
-router.post("/login", usersCtrl.login);
-
-// PUT /api/users/update-profile/:id (Update user profile)
+// Protected Routes (using checkToken only)
 router.put(
   "/update-profile/:id",
   checkToken,
   upload.single("profilePicture"),
   updateUserCtrl.updateProfile
-);
+); // PUT /api/users/update-profile/:id (Update user profile)
 
-// GET /api/users/profile (Fetch current user profile)
-router.get("/profile", checkToken, usersCtrl.getUserProfile);
+router.get("/profile", checkToken, usersCtrl.getUserProfile); // GET /api/users/profile (Fetch current user profile)
 
-// DELETE /api/users/profile (Delete user profile)
-router.delete("/profile", checkToken, usersCtrl.deleteProfile);
+router.delete("/profile", checkToken, usersCtrl.deleteProfile); // DELETE /api/users/profile (Delete user profile)
 
 module.exports = router;
